@@ -1,0 +1,14 @@
+.card {
+  display: inline-block;
+  height: 100%;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.cardRot
+{
+  display: inline-block;
+  width: 100%;
+  margin-top: -5px;
+  margin-bottom: -5px;
+}

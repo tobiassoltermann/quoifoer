@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="59.705868mm"
+   height="80.877831mm"
+   viewBox="0 0 59.705868 80.877831"
+   id="svg7326"
+   version="1.1"
+   inkscape:version="0.91+devel+osxmenu r12922"
+   sodipodi:docname="H6.svg">
+  <defs
+     id="defs7328" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="130.64062"
+     inkscape:cy="146.44015"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g7951"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1310"
+     inkscape:window-height="1329"
+     inkscape:window-x="1250"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:snap-page="true" />
+  <metadata
+     id="metadata7331">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-56.703612,-97.433109)">
+    <g
+       transform="matrix(0.26458333,0,0,0.26458333,-23.46223,289.76678)"
+       id="g7935">
+      <g
+         transform="translate(-475.06506)"
+         id="g7951">
+        <rect
+           style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+           x="793.73407"
+           y="-711.25043"
+           width="194.3"
+           height="274.32001"
+           ry="8.0901003"
+           rx="8.0901003"
+           id="rect7087" />
+        <path
+           style="fill:#00b5ff;fill-opacity:1;stroke-width:2.06730747"
+           inkscape:connector-curvature="0"
+           d="m 890.88405,-605.76149 21.0039,31.67115 -21.0039,31.67115 -21.0038,-31.67115 21.0038,-31.67115 z"
+           id="path11281" />
+        <text
+           id="text7089"
+           font-size="24px"
+           xml:space="preserve"
+           line-height="125%"
+           y="-624.56445"
+           x="813.59137"
+           sodipodi:linespacing="125%"
+           style="font-size:82.12612152px;line-height:125%;font-family:Arial;text-align:center;text-anchor:middle;fill:#0072a0;fill-opacity:1;stroke-width:3.42192197"><tspan
+             id="tspan7091"
+             font-size="24px"
+             line-height="125%"
+             y="-624.56445"
+             x="816.75311"
+             style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:82.12612152px;line-height:125%;font-family:Avenir;-inkscape-font-specification:'Avenir Heavy';text-align:start;text-anchor:start;fill:#0072a0;fill-opacity:1;stroke-width:3.42192197">9.</tspan></text>
+        <text
+           style="font-size:82.12612152px;line-height:125%;font-family:Arial;text-align:center;text-anchor:middle;fill:#0072a0;fill-opacity:1;stroke-width:3.42192197"
+           sodipodi:linespacing="125%"
+           x="-967.50055"
+           y="523.61633"
+           line-height="125%"
+           xml:space="preserve"
+           font-size="24px"
+           id="text7103"
+           transform="scale(-1)"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:82.12612152px;line-height:125%;font-family:Avenir;-inkscape-font-specification:'Avenir Heavy';text-align:start;text-anchor:start;fill:#0072a0;fill-opacity:1;stroke-width:3.42192197"
+             x="-964.33881"
+             y="523.61633"
+             line-height="125%"
+             font-size="24px"
+             id="tspan7105">9.</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
