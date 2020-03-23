@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="21.828125mm"
+   height="21.828125mm"
+   viewBox="0 0 21.828125 21.828125"
+   id="svg7326"
+   version="1.1"
+   inkscape:version="0.91+devel+osxmenu r12922"
+   sodipodi:docname="trumpH.svg">
+  <defs
+     id="defs7328" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="16.44436"
+     inkscape:cy="54.10852"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1449"
+     inkscape:window-height="1329"
+     inkscape:window-x="14"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:snap-page="true" />
+  <metadata
+     id="metadata7331">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-75.62132,-127.11406)">
+    <path
+       id="path20599"
+       d="m 86.535368,146.26419 c 0,0 -1.488043,-2.60583 -2.599769,-4.11546 -1.111673,-1.51012 -2.15093,-2.14174 -3.477101,-3.60116 -1.338765,-1.47244 -2.302616,-2.37644 -2.302616,-5.06004 0,-2.23691 1.929633,-3.98266 4.170442,-3.98266 2.240306,0 4.070879,1.76796 4.209044,3.98266 0.138192,-2.2147 1.968791,-3.98266 4.209098,-3.98266 2.240783,0 4.170416,1.74575 4.170416,3.98266 0,2.6836 -0.963825,3.5876 -2.30259,5.06004 -1.32625,1.45942 -2.365454,2.09104 -3.477181,3.60116 -1.111673,1.50963 -2.599743,4.11546 -2.599743,4.11546 z"
+       inkscape:connector-curvature="0"
+       style="fill:#ff0000;stroke:#ffffff;stroke-width:0.565;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

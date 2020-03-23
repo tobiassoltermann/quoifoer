@@ -5,7 +5,7 @@ import './GameboardArea.css';
 
 import Card from './Card';
 import Board from './Board';
-
+import Scores from './Scores';
 class GameboardArea extends React.Component {
     constructor(props) {
         super(props);
@@ -14,58 +14,29 @@ class GameboardArea extends React.Component {
         }
         
     }
-
-    /*handleChange(value, i) {
-        this.setState({
-            localName: value
-        });
-    }
-    handleSubmit(e) {
-        this.props.commitChange({
-            localName: this.state.localName
-        });
-    }*/
     render() {
         var boardSetup = {
-            player: [
-                "Player South",
-                "Player "
-            ]
+            s: {
+                playerName: "Player 1",
+                card: "H6"
+            },
+            e: {
+                playerName: "Player 2",
+                card: "S7"
+            },
+            n: {
+                playerName: "Player 3",
+                card: "K8"
+            },
+            w: {
+                playerName: "Player 4",
+                card: "C9"
+            },
         }
         return (
             <div className="gameboardArea">
-                    <div className="scores">
-                        <div style={{display: 'inline-block', backgroundColor: 'red', width: "100px", height: '100px'}}></div>
-                        <table className="scoresTable">
-                            <tr>
-                                <th>abc</th>
-                                <th>abc</th>
-                                <th>abc</th>
-                            </tr>
-                        </table>
-                    </div>
-                    <Board props={{}}/>
-                    <div className="board">
-                        <div className="boardInner">
-                            <div style={{zIndex: 100}}>
-                                <Card className="boardCard cardS" which="H6"></Card>
-                                <div className="playerNameS"><p>Player 1</p></div>
-                            </div>
-                            <div style={{zIndex: 200}}>
-                                <Card className="boardCard cardE" which="S7"></Card>
-                                <div className="playerNameE">Player 2</div>
-                            </div>
-                            <div style={{zIndex: 300}}>
-                                <Card className="boardCard cardN" which="K8"></Card>
-                                <div className="playerNameN">Player 3</div>
-                            </div>
-                            <div style={{zIndex: 400}}>
-                                <Card className="boardCard cardW" which="C9"></Card>
-                                <div className="playerNameW">Player 4</div>
-                                
-                            </div>
-                        </div>
-                    </div>
+                    <Scores></Scores>
+                    <Board props={boardSetup}/>
             </div>
         )
     }

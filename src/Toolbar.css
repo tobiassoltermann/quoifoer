@@ -1,0 +1,41 @@
+.toolbarLeft {
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    text-align: left;
+    vertical-align: 'middle';
+}
+
+.toolbarRight {
+    position: absolute;
+    right: 0;
+}
+
+.toolbarCenter {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 15vh;
+    padding-bottom: 10px;
+    z-index: 10000;
+}
+
+.toolbarTextContainer {
+
+    background-color: black;
+    color: white;
+    font-size: 2em;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.toolbarText {
+    vertical-align: middle;
+    padding: 10px;
+    display: inline-block;
+}
+
+.toolbarContainer {
+    margin-bottom: 80px;
+}

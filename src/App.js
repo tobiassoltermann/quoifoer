@@ -82,6 +82,7 @@ class App extends Component {
           <GameboardArea></GameboardArea>
           <footer className="footer">
             <Toolbar isConnected={this.state.isConnected} isFullscreen={this.state.isFullscreen} goFull={this.goFull} showSettings={this.showSettings} />
+            <div className=""></div>
             <div className="blackEl">
               <OverflowScrolling className='overflow-scrolling'>
                 <CardDeck cards={["H6", "K8", "CX", "CK", "CQ", "H7", "C9", "C6", "HK", "C8", "S9", "SX"]}></CardDeck>

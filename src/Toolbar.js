@@ -5,6 +5,8 @@ import { FiMaximize, FiMinimize } from "react-icons/fi";
 import { Button } from 'rsuite';
 
 import PropTypes from 'prop-types';
+import TrumpIcon from './TrumpIcon';
+import './Toolbar.css';
 
 class ConnectedElement extends React.Component {
     render() {
@@ -24,21 +26,39 @@ class Toolbar extends React.Component {
 
     render() {
         return (
-            <div style={{ textAlign: "left", verticalAlign: 'middle' }}>
-                <IconContext.Provider value={{ color: "white", size: "3em" }}>
-                    <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { this.props.showSettings(true) }}><IoMdSettings /></Button>
-                    {
-                        (() => {
-                            if (this.props.isFullscreen) {
-                                return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(false) }} size="lg" appearance="subtle" ><FiMinimize /></Button>)
-                            } else {
-                                return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
-                            }
-                        }).bind(this)()
-                    }
-                    <ConnectedElement isConnected={this.props.isConnected}/>
-                    
-                </IconContext.Provider>
+            <div className="toolbarContainer">
+                <div className="toolbarLeft">
+                    <IconContext.Provider value={{ color: "white", size: "3em" }}>
+                        <ConnectedElement isConnected={this.props.isConnected}/>
+                        {function(){
+                            return this.props.isConnected ?
+                            <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#00ffa2'}}>Connected</span> :
+                            <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#ffbe00'}}>Disconnected</span>;
+                        }.bind(this)()}
+                    </IconContext.Provider>
+                </div>
+                <div className="toolbarCenter">
+                    <div className="toolbarTextContainer">
+                        {/*<div className="toolbarText"><IoMdSettings /></div><div className="toolbarText"><span>Tobi ist am Zug</span></div>*/}
+                        <div className="toolbarText" style={{padding: '0px'}}>
+                            <TrumpIcon which="trumpK" style={{ width: '75%' }}/>
+                        </div><div className="toolbarText"><span>Player 1 ist am Zug</span></div>
+                    </div>
+                </div>                
+                <div className="toolbarRight" >
+                    <IconContext.Provider value={{ color: "white", size: "3em" }}>
+                        {
+                            (() => {
+                                if (this.props.isFullscreen) {
+                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(false) }} size="lg" appearance="subtle" ><FiMinimize /></Button>)
+                                } else {
+                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
+                                }
+                            }).bind(this)()
+                        }
+                        <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { this.props.showSettings(true) }}><IoMdSettings /></Button>
+                    </IconContext.Provider>
+                </div>
             </div>
         );
     }
