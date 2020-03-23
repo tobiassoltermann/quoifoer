@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import CardImages from './CardImages';
 import './Card.css'
+import PropTypes from 'prop-types';
 
 class Card extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.style = Object.assign(
       {},
       {
         maxWidth: "100%",
         height: "100%",
       },
+      (() => {
+        return this.props.isBlocked ?
+          {
+            opacity: 0.4
+          }:
+          {
+            opacity: 1,
+            marginBottom: '50%'
+          }
+      }).bind(this)(),
       this.props.style
     );
   }
@@ -36,5 +48,11 @@ class Card extends React.Component {
       break;
     }
   }
+}
+
+Card.propTypes = {
+  which: PropTypes.string,
+  rotate: PropTypes.number,
+  isPlayable: PropTypes.bool,  
 }
 export default Card;

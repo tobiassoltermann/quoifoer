@@ -15,28 +15,10 @@ class GameboardArea extends React.Component {
         
     }
     render() {
-        var boardSetup = {
-            s: {
-                playerName: "Player 1",
-                card: "H6"
-            },
-            e: {
-                playerName: "Player 2",
-                card: "S7"
-            },
-            n: {
-                playerName: "Player 3",
-                card: "K8"
-            },
-            w: {
-                playerName: "Player 4",
-                card: "C9"
-            },
-        }
         return (
             <div className="gameboardArea">
-                    <Scores></Scores>
-                    <Board props={boardSetup}/>
+                    <Scores scores={this.props.scores}></Scores>
+                    <Board props={this.props.boardSetup}/>
             </div>
         )
     }
@@ -46,6 +28,7 @@ GameboardArea.propTypes = {
     visible: PropTypes.bool,
     commitChange: PropTypes.func,
     onHide: PropTypes.func,
+    scores: PropTypes.object,
 };
   
 

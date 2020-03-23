@@ -4,11 +4,13 @@
     display: inline-block;
     text-align: left;
     vertical-align: 'middle';
+    z-index: 10;
 }
 
 .toolbarRight {
     position: absolute;
     right: 0;
+    z-index: 10;
 }
 
 .toolbarCenter {
@@ -17,7 +19,7 @@
     left: 0;
     bottom: 15vh;
     padding-bottom: 10px;
-    z-index: 10000;
+    z-index: 0;
 }
 
 .toolbarTextContainer {

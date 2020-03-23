@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-
+import PropTypes from 'prop-types';
 import OverflowScrolling from 'react-overflow-scrolling';
 import './Scores.css'
+import TrumpIcon from './TrumpIcon';
 
 class ScoreEntry extends React.Component {
     render () {
         return (
             <tr className="scoresRow">
                 <td className="scoresIcon">
-                    {this.props.icon}
+                    <span className="scoresIconLine"><span className="scoresMultiplier">{this.props.multiplier}x</span> <TrumpIcon which={this.props.icon} style={{ width: '35%', paddingLeft: '-10px', marginLeft: '-20px' }}></TrumpIcon></span>
                 </td>
                 <td className="scoresItem">
                     {this.props.scoreTeam1}
@@ -20,62 +21,17 @@ class ScoreEntry extends React.Component {
         );
     }
 }
+ScoreEntry.propTypes = {
+    icon: PropTypes.string,
+    multiplier: PropTypes.number,
+    scoreTeam1: PropTypes.number,
+    scoreTeam2: PropTypes.number,
+}
 
 class Scores extends React.Component {
     render () {
-        let scores = [
-            {
-                icon: 1,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 2,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 3,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 4,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 5,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 6,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 7,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 8,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 9,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-            {
-                icon: 10,
-                scoreTeam1: 100,
-                scoreTeam2: 57,
-            },
-        ];
-
+        var scores = this.props.scores;
+       
         return (
             <div className="scores">
                 <div className="scoresInner">
@@ -83,17 +39,17 @@ class Scores extends React.Component {
                         <OverflowScrolling className='overflow-scrolling'>
                             <div>
                                 <table className="scoresTable" style={{ whiteSpace: 'nowrap'}}>
-                                    <thead>
+                                    <thead className="scoresTableHeader">
                                         <tr>
-                                            <th className="scoresModeHeader">Coiffeur</th>
-                                            <th className="scoresHeader">Team 1</th>
-                                            <th className="scoresHeader">Team 2</th>
+                                            <th className="scoresModeHeader">{scores.mode}</th>
+                                            <th className="scoresHeader">{scores.team1Name}</th>
+                                            <th className="scoresHeader">{scores.team2Name}</th>
                                         </tr>  
                                     </thead>
                                     <tbody>
                                         {
-                                            scores.map( (e) => {
-                                                return <ScoreEntry {...e}></ScoreEntry>
+                                            scores.scoreLines.map( (e, i) => {
+                                                return <ScoreEntry key={i} multiplier={i+1} {...e}></ScoreEntry>
                                             })
                                         }
                                     </tbody>
@@ -103,10 +59,10 @@ class Scores extends React.Component {
                                                 Total:
                                             </td>
                                             <td className="scoresItem">
-                                                134
+                                                {scores.totalTeam1}
                                             </td>
                                             <td className="scoresItem">
-                                                13
+                                                {scores.totalTeam2}
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -119,6 +75,15 @@ class Scores extends React.Component {
             </div>
         )
     }
+}
+
+Scores.propTypes = {
+    scoreLines: PropTypes.array,
+    totalTeam1: PropTypes.number,
+    totalTeam2: PropTypes.number,
+    team1Name: PropTypes.string,
+    team2Name: PropTypes.string,
+    mode: PropTypes.string,
 }
 
 export default Scores;

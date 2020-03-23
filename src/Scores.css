@@ -14,6 +14,15 @@
     margin: 10px;
 }
 
+.scoresIconLine {
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.scoresMultiplier {
+    margin-right: -20px;
+}
+
 div.scoresTable {
     position: relative;
     top: 30%;
@@ -27,18 +36,30 @@ table.scoresTable {
     text-align: center;
     width: 100%;
     color: white;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 th.scoresModeHeader {
     border-bottom: 1px solid white;
-
+    padding-top: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    margin: 0px;
 }
 th.scoresHeader {
     border: 1px solid white;
     border-top: none;
     border-bottom:  1px solid white !important;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    margin: 0px;
+}
+.scoresTableHeader {
+    font-size: 0.9em;
+    padding: 0;
+    height: 0.9em;
 }
 
 td.scoresItem {
@@ -56,6 +77,8 @@ td.scoresIcon {
     border: 1px solid gray;
     border-right: 1px solid white;
     border-left: none;
+    text-align: right;
+
 }
 
 .overflow-scrolling {

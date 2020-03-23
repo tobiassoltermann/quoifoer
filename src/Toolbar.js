@@ -12,11 +12,17 @@ class ConnectedElement extends React.Component {
     render() {
         if (this.props.isConnected) {
             return (
-                <Button size="lg" appearance="subtle" disabled style={{verticalAlign: 'middle', color: '#00ffa2'}}><IoIosCheckmarkCircle color='#00ffa2'/></Button>
+                <div>
+                    <Button size="lg" appearance="subtle" disabled style={{verticalAlign: 'middle', color: '#00ffa2'}}><IoIosCheckmarkCircle color='#00ffa2'/></Button>
+                    <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#00ffa2'}}>Connected</span>
+                </div>
             )
         } else {
             return (
-                <Button size="lg" appearance="subtle" disabled style={{verticalAlign: 'middle', color: '#9f0000'}}><IoIosWarning color='#ffbe00'/></Button>
+                <div>
+                    <Button size="lg" appearance="subtle" disabled style={{verticalAlign: 'middle', color: '#9f0000'}}><IoIosWarning color='#ffbe00'/></Button>
+                    <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#ffbe00'}}>Disconnected</span>
+                </div>
             )
         }
     }
@@ -30,11 +36,6 @@ class Toolbar extends React.Component {
                 <div className="toolbarLeft">
                     <IconContext.Provider value={{ color: "white", size: "3em" }}>
                         <ConnectedElement isConnected={this.props.isConnected}/>
-                        {function(){
-                            return this.props.isConnected ?
-                            <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#00ffa2'}}>Connected</span> :
-                            <span style={{verticalAlign: 'middle', fontSize: '1.5em', color: '#ffbe00'}}>Disconnected</span>;
-                        }.bind(this)()}
                     </IconContext.Provider>
                 </div>
                 <div className="toolbarCenter">

@@ -6,7 +6,7 @@ export default function CardDeck(props) {
       <div className="carddeck">
         {
           props.cards.map( (current) => {
-            return <Card key={current} which={current}></Card>
+            return <Card isBlocked={!current.playable} key={current.card} which={current.card}></Card>
           })
         }
       </div>
