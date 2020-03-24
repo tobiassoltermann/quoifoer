@@ -15,7 +15,9 @@ import {
     HelpBlock,
     Divider,
     Table,
-
+    RadioGroup,
+    Radio,
+    Tag,
 } from 'rsuite';
 
 import {
@@ -23,93 +25,50 @@ import {
     TiLockClosed,
 } from 'react-icons/ti';
 
+import './SettingsDialog.css';
+
+import RoomSettings from './components/settings/RoomSettings';
+
 const { Column, HeaderCell, Cell, Pagination } = Table;
-
-class RoomList extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.handleJoin = this.handleJoin.bind(this);
-    }
-    handleJoin(room) {
-        this.props.handleJoinRequest(room);
-    }
-    render() {
-        return (
-            <Table
-                autoHeight={true}
-                data={this.props.rooms}
-                onRowClick={data => {
-                    console.log(data);
-                }}
-            >
-                <Column width={200} align="left" fixed>
-                    <HeaderCell>name</HeaderCell>
-                    <Cell dataKey="name" />
-                </Column>
-                <Column width={50} align="center" fixed>
-                    <HeaderCell>Players</HeaderCell>
-                    <Cell>
-                        {rowData => {
-                            return (
-                                rowData.playerCount + " / 4"
-                            );
-                        }}
-                    </Cell>
-                </Column>
-                <Column width={50} align="center" fixed>
-                    <HeaderCell>Protected</HeaderCell>
-                    <Cell>
-                        {rowData => {
-                            return (
-                                rowData.passwd ? <TiLockClosed /> : <TiLockOpen />
-                            );
-                        }}
-                    </Cell>
-                </Column>
-                <Column width={100} align="center" fixed>
-                    <HeaderCell>Action</HeaderCell>
-                    <Cell>
-                        {rowData => {
-                            return (
-                                <span>
-                                    <Button size="xs" appearance="ghost" onClick={() => { this.handleJoin(rowData.name) }}>Join</Button>
-                                </span>
-                            );
-                        }}
-                    </Cell>
-                </Column>
-            </Table>
-        );
-    }
-
-}
-const styleCenter = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '60px'
-};
-
 
 class SettingsDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            localName: ""
+            localName: this.props.localName,
+            createRoomName: "",
+            createRoomProtection: 'none',
+            createRoomPasswd: '',
+            createRoomGamemode: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
     }
 
-    handleChange(value, i) {
-        this.setState({
-            localName: value
-        });
+    handleChange(value, e) {
+        var stateObj = {};
+        switch (e.target.name) {
+            case "createRoomProtection":
+            case "createRoomGamemode":
+                stateObj[e.target.name] = value;
+            break;
+            default:
+                stateObj[e.target.name] = e.target.value;
+        }
+
+        this.setState(stateObj);
     }
     handleSubmit(e) {
         this.props.commitChange({
             localName: this.state.localName
+        });
+    }
+    handleCreate() {
+        this.props.handleAddRoomRequest({
+            name: this.state.createRoomName,
+            protection: this.state.createRoomProtection,
+            passwd: this.state.createRoomPasswd,
         });
     }
 
@@ -123,31 +82,49 @@ class SettingsDialog extends React.Component {
                     <Form>
                         <FormGroup>
                             <ControlLabel>Username</ControlLabel>
-                            <FormControl style={{ width: 300 }} onChange={this.handleChange} name="name" />
+                            <FormControl style={{ width: 300 }} onChange={this.handleChange} name="localName" value={this.state.localName}/>
                             <HelpBlock>Required</HelpBlock>
                         </FormGroup>
                         <FormGroup>
                             <ButtonToolbar>
                                 <Button appearance="primary" onClick={this.handleSubmit}>Submit</Button>
-                                <Button appearance="default" onClick={this.props.onHide}>Cancel</Button>
                             </ButtonToolbar>
                         </FormGroup>
                     </Form>
                     <Divider />
-                    <Form>
-                        <FormGroup>
-                            <ControlLabel>Choose room</ControlLabel>
-                            <RoomList handleJoinRequest={this.props.handleJoinRequest} rooms={this.props.roomList} style={{ width: '80%', textAlign: 'center' }}></RoomList>
-                        </FormGroup>
-                        <Divider />
-                    </Form>
+                    <RoomSettings joinedRoom={this.props.joinedRoom} {...this.props} />
                     <Form layout="inline">
                         <FormGroup>
                             <ControlLabel >Create room:</ControlLabel>
-                            <FormControl placeholder="room name" name="roomName" />
+                            <FormControl placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
                         </FormGroup>
-                        <Button>Create</Button>
-                    </Form>‚
+                        <FormGroup>
+                            <RadioGroup name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
+                                <span className="rulesLabel">Rules: </span>
+                                {
+                                    (() => {
+                                        Object.keys(this.props.availableGamemodes).map( (crtName) => {
+                                            return (
+                                                <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomRules == "none" ? ' createRoomGamemodeSelected' : '') }>{this.props.availableGamemodes.label}</Radio>
+                                            )
+                                        });
+                                    })()
+                                }
+                                
+                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '') }></Radio>
+                            </RadioGroup>
+                            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd}/>
+                        </FormGroup>
+                        <FormGroup>
+                            <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
+                                <span className="protectionLabel">Protection: </span>
+                                <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '') }><TiLockOpen /></Radio>
+                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '') }><TiLockClosed /></Radio>
+                            </RadioGroup>
+                            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd}/>
+                        </FormGroup>
+                        <Button appearance="primary" onClick={this.handleCreate}>Create</Button>
+                    </Form>
                 </Drawer.Body>
                 <Drawer.Footer>
 

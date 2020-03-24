@@ -1,0 +1,19 @@
+.protectionLabel {
+    padding: 8px 2px 8px 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.protectionRadioSelected {
+    color: blue;
+}
+
+.rulesLabel {
+    padding: 8px 2px 8px 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.createRoomGamemode {
+    color: blue;
+}

@@ -1,0 +1,6 @@
+.carddeck {
+    width: 100%;
+    white-space: nowrap;
+    height: 15vh;
+    overflow-y: hidden;
+}

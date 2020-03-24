@@ -21,6 +21,10 @@ import GameboardArea from './GameboardArea';
   yarn start
 */
 
+/**
+ * WHY get availableGamemodes multiple times????
+ */
+
 class App extends Component {
   constructor() {
     super();
@@ -29,11 +33,17 @@ class App extends Component {
       showSettings: false,
       isFullscreen: false,
       isConnected: false,
+      debugInfo: { a: 'b'},
+      roomList: [],
+      joinedRoom: null,
+      availableGamemodes: [],
     };
 
     this.goFull = this.goFull.bind(this);
     this.showSettings = this.showSettings.bind(this);
     this.handleJoinRequest = this.handleJoinRequest.bind(this);
+    this.handleLeaveRequest = this.handleLeaveRequest.bind(this);
+    this.handleAddRoomRequest = this.handleAddRoomRequest.bind(this);
   }
 
   goFull(isFull) {
@@ -45,33 +55,70 @@ class App extends Component {
     this.setState({ showSettings });
   }
 
-  handleJoinRequest(room) {
-    alert('Join: ' + room);
+  handleAddRoomRequest(roomDetails) {
+    console.log(roomDetails);
+    this.socket.emit('createRoom', roomDetails);
+  }
+
+  handleJoinRequest(roomName) {
+    this.socket.emit('joinRoom', roomName, (confirmation) => {
+      if (confirmation) {
+        this.setState({
+          joinedRoom: roomName
+        });
+      }
+      console.log(confirmation);
+    });
+  }
+  handleLeaveRequest(roomName) {
+    console.log("handleLeaveRequest");
+    this.socket.emit('leaveRoom', roomName, (confirmation) => {
+   
+      if (confirmation) {
+        this.setState({
+          joinedRoom: null
+        });
+      }
+      console.log(confirmation);
+    });
+    console.log('after send leave');
   }
 
   componentDidMount() {
     console.log("App mount");
-    const socket = io(':4000');
-    socket.on('connect', () => {
+    this.socket = io(':4000');
+    this.socket.on('connect', () => {
       this.setState({ isConnected: true });
       console.log('connect');
 
       Alert.success('Connected to host', 3000);
     })
-    socket.on('disconnect', () => {
+    this.socket.on('disconnect', () => {
       this.setState({ isConnected: false });
       Alert.error('Disconnected', 2000);
     })
-    socket.on('needname', (message) => {
-      console.log('needname');
-      if (this.state.localName == null) {
-        this.setState({
-          showSettings: true
-        });
-      } else {
-        socket.emit("providename", this.state.localName);
-      }
+    this.socket.on('debugInfo', (message)=>{
+      this.setState({
+        debugInfo: message
+      })
+    })
+    this.socket.on('hello', () => {
+      console.log("Hello to room");
     });
+
+    this.socket.on('rooms', (roomList) => {
+      console.log('rooms', roomList);
+      this.setState({
+        roomList,
+      });
+    });
+
+    this.socket.on('offered-gamemodes', (availableGamemodes) => {
+      console.log(availableGamemodes);
+      this.setState({
+        availableGamemodes
+      })
+    })
   }
   render() {
 
@@ -205,34 +252,35 @@ class App extends Component {
       },
 
     ];
-
-    let roomList = [
-        {
-            name: 'Super Sach',
-            playerCount: 3,
-            passwd: false,
-        },
-        {
-            name: 'secret game',
-            playerCount: 1,
-            passwd: true,
-        }
-    ];
-
-
+    console.log("availableGamemodes", this.state.availableGamemodes)
     return (
       <Fullscreen
         enabled={this.state.isFullscreen}
         onChange={isFullscreen => this.setState({ isFullscreen })}
       >
         <div className="App">
-          <SettingsDialog handleJoinRequest={this.handleJoinRequest} roomList={roomList} onHide={() => { this.showSettings(false) }} visible={this.state.showSettings} commitChange={(settingsForm) => {
-            localStorage.setItem('localName', settingsForm.localName);
-            this.setState({
-              localName: settingsForm.localName,
-              showSettings: false,
-            });
-          }} />
+          <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white'}}>
+            <p style={{ fontWeight: 'bold'}}>Debug:</p>
+            <pre>{ JSON.stringify(this.state.debugInfo, undefined, 2) }</pre>
+          </div>
+          <SettingsDialog
+            localName={this.state.localName}
+            handleAddRoomRequest={this.handleAddRoomRequest}
+            handleJoinRequest={this.handleJoinRequest}
+            handleLeaveRequest={this.handleLeaveRequest}
+            roomList={this.state.roomList}
+            onHide={() => { this.showSettings(false) }}
+            visible={this.state.showSettings}
+            joinedRoom={this.state.joinedRoom}
+            availableGamemodes={this.state.availableGamemodes}
+            commitChange={(settingsForm) => {
+              localStorage.setItem('localName', settingsForm.localName);
+              this.setState({
+                localName: settingsForm.localName,
+                showSettings: false,
+              });
+            }}
+          />
           <div className=""></div>
           <GameboardArea scores={scores} boardSetup={boardSetup}></GameboardArea>
           <footer className="footer">

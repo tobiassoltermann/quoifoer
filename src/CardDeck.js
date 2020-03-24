@@ -1,6 +1,8 @@
 import React from 'react';
 import Card from './Card';
 
+import './CardDeck.css';
+
 export default function CardDeck(props) {
     return (
       <div className="carddeck">

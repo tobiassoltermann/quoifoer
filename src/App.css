@@ -25,11 +25,6 @@
   height: 15vh;
 }
 
-.carddeck {
-  width: 100%;
-  white-space: nowrap;
-  height: 15vh;
-}
 .overflow-scrolling {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
