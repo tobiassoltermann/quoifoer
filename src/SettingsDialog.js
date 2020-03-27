@@ -96,7 +96,7 @@ class SettingsDialog extends React.Component {
                                     (() => {
                                         return Object.keys(this.props.availableGamemodes).map((crtName) => {
                                             return (
-                                                <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
+                                                <Radio key={crtName} value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
                                             )
                                         });
                                     })()

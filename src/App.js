@@ -18,10 +18,18 @@ import SettingsDialog from './SettingsDialog';
 import Toolbar from './Toolbar';
 import GameboardArea from './GameboardArea';
 
+import CoiffeurRules from './components/rules/CoiffeurRules';
+
 /*
   yarn start
 */
 
+function GameRuleResolver(gameMode) {
+  switch (gameMode) {
+    case 'coiffeur':
+      return CoiffeurRules;
+  }
+}
 
 class App extends Component {
   constructor() {
@@ -35,9 +43,8 @@ class App extends Component {
       roomList: [],
       joinedRoom: null,
       availableGamemodes: [],
-
-
-
+      
+      seatingState: {},
     };
 
     this.goFull = this.goFull.bind(this);
@@ -46,6 +53,8 @@ class App extends Component {
     this.handleLeaveRequest = this.handleLeaveRequest.bind(this);
     this.handleAddRoomRequest = this.handleAddRoomRequest.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
+
+    this.gameRuleImplementation = null;
   }
 
   goFull(isFull) {
@@ -79,23 +88,25 @@ class App extends Component {
     });
   }
 
-  handleJoinRequest(roomName) {
-    this.socket.emit('joinRoom', roomName, (confirmation, roomDetails) => {
+  handleJoinRequest(roomName, password) {
+    this.socket.emit('joinRoom', { name: roomName, password: password}, (confirmation, roomDetails) => {
       if (confirmation.status) {
         this.setState({
           joinedRoom: roomName,
           gameMode: roomDetails.gameMode,
+        }, () => {
+          this.gameRuleImplementation = new (GameRuleResolver(this.state.gameMode))(this.setState, this.socket);
+          this.gameRuleImplementation.onStart();
         });
         Alert.success('Joined room', 2000);
 
       } else {
         Alert.error('Could not join room: ' + confirmation.message, 5000);
       }
-      console.log(confirmation);
     });
   }
   handleLeaveRequest(roomName) {
-    console.log("handleLeaveRequest");
+
     this.socket.emit('leaveRoom', roomName, (confirmation) => {
 
       if (confirmation) {
@@ -104,9 +115,7 @@ class App extends Component {
         });
         this.socket.off('gameupdate');
       }
-      console.log(confirmation);
     });
-    console.log('after send leave');
   }
 
   handleGameUpdate(roomData) {
@@ -141,14 +150,12 @@ class App extends Component {
     });
 
     this.socket.on('rooms', (roomList) => {
-      console.log('rooms', roomList);
       this.setState({
         roomList,
       });
     });
 
     this.socket.on('offered-gamemodes', (availableGamemodes) => {
-      console.log(availableGamemodes);
       this.setState({
         availableGamemodes
       })

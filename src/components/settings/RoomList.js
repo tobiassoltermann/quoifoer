@@ -1,7 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     Button,
     Table,
+    Popover, Whisper,
+    Input, InputGroup,
+    Form, FormGroup, FormControl,
+
 } from 'rsuite';
 
 import {
@@ -11,24 +15,65 @@ import {
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
 
+class JoinButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            password: "",
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange(value, e) {
+        var stateObj = {};
+        stateObj[e.target.name] = e.target.value;
+        this.setState(stateObj);
+    }
+    render() {
+        switch (this.props.protection) {
+            case 'passwd':
+                return (
+                    <Whisper key={"passwd"+this.props.name}
+                        trigger="click"
+                        placement={'right'}
+                        speaker={
+                            <Popover>
+                                <Form layout="inline">
+                                    <FormGroup>
+                                        <FormControl placeholder="password" style={{ width: 100 }} onChange={this.handleChange} name="password" value={this.state.password} /><Button appearance="primary" onClick={() => { this.props.handleJoin(this.props.name, this.state.password) }}>Join</Button>
+                                    </FormGroup>
+                                </Form>
+                            </Popover>
+                        }
+                    >
+                        <Button size="xs">Join</Button>
+                    </Whisper>
+                )
+            case 'none':
+            default:
+                return (
+                    <span>
+                        <Button size="xs" appearance="ghost" onClick={() => { this.props.handleJoin(this.props.name) }}>Join</Button>
+                    </span>
+                );
+        }
+    }
+}
+
+
 class RoomList extends React.Component {
 
     constructor(props) {
         super(props);
         this.handleJoin = this.handleJoin.bind(this);
     }
-    handleJoin(room) {
-        this.props.handleJoinRequest(room);
+    handleJoin(room, password) {
+        this.props.handleJoinRequest(room, password);
     }
+
     render() {
+
         return (
-            <Table
-                autoHeight={true}
-                data={this.props.rooms}
-                onRowClick={data => {
-                    console.log(data);
-                }}
-            >
+            <Table autoHeight={true} data={this.props.rooms}>
                 <Column width={100} align="left" fixed>
                     <HeaderCell>name</HeaderCell>
                     <Cell dataKey="name" />
@@ -47,9 +92,15 @@ class RoomList extends React.Component {
                     <HeaderCell><TiLockClosed />/<TiLockOpen /></HeaderCell>
                     <Cell>
                         {rowData => {
-                            return (
-                                rowData.protection ? <TiLockClosed /> : <TiLockOpen />
-                            );
+                            switch (rowData.protection) {
+                                case 'passwd':
+                                    return (<TiLockClosed />);
+                                    break;
+                                case 'none':
+                                default:
+                                    return (<TiLockOpen />);
+                                    break;
+                            }
                         }}
                     </Cell>
                 </Column>
@@ -66,13 +117,11 @@ class RoomList extends React.Component {
                 <Column width={100} align="center" fixed>
                     <HeaderCell>Action</HeaderCell>
                     <Cell>
-                        {rowData => {
-                            return (
-                                <span>
-                                    <Button size="xs" appearance="ghost" onClick={() => { this.handleJoin(rowData.name) }}>Join</Button>
-                                </span>
-                            );
-                        }}
+                        {
+                            rowData => {
+                                return <JoinButton handleJoin={this.handleJoin} name={rowData.name} protection={rowData.protection}/>
+                            }
+                        }
                     </Cell>
                 </Column>
             </Table>
