@@ -30,7 +30,15 @@ class RoomSettings extends React.Component {
                 <Form>
                     <FormGroup>
                         <ControlLabel>Rooms</ControlLabel>
-                        <RoomList handleJoinRequest={this.props.handleJoinRequest} rooms={this.props.roomList} style={{ width: '80%', textAlign: 'center' }}></RoomList>
+                        {
+                            (() => {
+                                if (this.props.roomList.length > 0) {
+                                    return <RoomList handleJoinRequest={this.props.handleJoinRequest} rooms={this.props.roomList} style={{ width: '80%', textAlign: 'center' }}></RoomList>
+                                } else {
+                                    return <div style={{width: '100%', padding: '10px', backgroundColor: '#1a1d24', borderRadius: '6px'}}>No rooms created yet</div>;
+                                }
+                            }).bind(this)()
+                        }
                     </FormGroup>
                     <Divider />
                 </Form>

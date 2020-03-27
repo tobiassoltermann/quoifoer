@@ -1,38 +1,11 @@
-.gameboardArea {
-/*    position: absolute;
-    top: 0;*/
-    vertical-align: top;
-    background-color:rgb(0,0,0,0.5);
-    width: 100%;
-    height: 75vh;
-    text-align: center;
-    padding-top: 20px;
-}
-.gameboardArea:before {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
-    height: 100%;
-  }
 
-.leaveButton {
-    position: absolute;
-    margin-right: 20px;
-    vertical-align: top;
-    display: inline-block;
-    text-align: center;
-    right: 0;
-    border-color: black;
-    border-radius: 10px;
-    text-align: right;
-}
 .board {
     margin-left: 20px;
     vertical-align: top;
     background-color:rgb(0,128,0,0.7);
     display: inline-block;
     text-align: center;
-  
+    
     width: 60vh;
     height: 60vh;
     border-color: black;
@@ -46,7 +19,6 @@
     text-align: center;
     vertical-align: middle;
 }
-
 
 .topBoard {
     height: 100%;

@@ -52,7 +52,7 @@ class SettingsDialog extends React.Component {
             case "createRoomProtection":
             case "createRoomGamemode":
                 stateObj[e.target.name] = value;
-                break;
+            break;
             default:
                 stateObj[e.target.name] = e.target.value;
         }
@@ -75,28 +75,38 @@ class SettingsDialog extends React.Component {
 
     render() {
         return (
-            <div style={{padding: '20px', height: '70vh', overflow: 'auto'}}>
-                <div style={{ textAlign: 'center' }} className="settingsDialog" style={{ textAlign: 'center' }}>
-
-                    <Form layout="inline">
+            <Drawer onHide={this.props.onHide} show={this.props.visible}>
+                <Drawer.Header>
+                    <Drawer.Title>Settings</Drawer.Title>
+                </Drawer.Header>
+                <Drawer.Body>
+                    <Form>
                         <FormGroup>
-                            <ControlLabel>Username</ControlLabel><FormControl placeholder="Username" style={{ width: 150 }} onChange={this.handleChange} name="localName" value={this.state.localName} /><Button appearance="primary" onClick={this.handleSubmit}>Submit</Button>
+                            <ControlLabel>Username</ControlLabel>
+                            <FormControl style={{ width: 300 }} onChange={this.handleChange} name="localName" value={this.state.localName}/>
+                            <HelpBlock>Required</HelpBlock>
+                        </FormGroup>
+                        <FormGroup>
+                            <ButtonToolbar>
+                                <Button appearance="primary" onClick={this.handleSubmit}>Submit</Button>
+                            </ButtonToolbar>
                         </FormGroup>
                     </Form>
+                    <Divider />
                     <RoomSettings joinedRoom={this.props.joinedRoom} {...this.props} />
                     <Form layout="inline">
                         <FormGroup>
                             <ControlLabel >Create room:</ControlLabel>
-                            <FormControl style={{ width: 100 }} placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
+                            <FormControl style={{ width: 100 }}  placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
                         </FormGroup>
                         <FormGroup>
                             <RadioGroup name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
                                 <span className="rulesLabel">Rules: </span>
                                 {
                                     (() => {
-                                        return Object.keys(this.props.availableGamemodes).map((crtName) => {
+                                        return Object.keys(this.props.availableGamemodes).map( (crtName) => {
                                             return (
-                                                <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
+                                                <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '') }>{this.props.availableGamemodes[crtName].label}</Radio>
                                             )
                                         });
                                     })()
@@ -106,15 +116,18 @@ class SettingsDialog extends React.Component {
                         <FormGroup>
                             <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
                                 <span className="protectionLabel">Protection: </span>
-                                <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
-                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>
+                                <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '') }><TiLockOpen /></Radio>
+                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '') }><TiLockClosed /></Radio>
                             </RadioGroup>
-                            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd} />
+                            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd}/>
                         </FormGroup>
                         <Button appearance="primary" onClick={this.handleCreate}>Create</Button>
                     </Form>
-                </div>
-            </div>
+                </Drawer.Body>
+                <Drawer.Footer>
+
+                </Drawer.Footer>
+            </Drawer>
         )
     }
 }

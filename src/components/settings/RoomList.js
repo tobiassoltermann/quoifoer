@@ -29,11 +29,11 @@ class RoomList extends React.Component {
                     console.log(data);
                 }}
             >
-                <Column width={200} align="left" fixed>
+                <Column width={100} align="left" fixed>
                     <HeaderCell>name</HeaderCell>
                     <Cell dataKey="name" />
                 </Column>
-                <Column width={50} align="center" fixed>
+                <Column width={70} align="center" fixed>
                     <HeaderCell>Players</HeaderCell>
                     <Cell>
                         {rowData => {
@@ -44,11 +44,21 @@ class RoomList extends React.Component {
                     </Cell>
                 </Column>
                 <Column width={50} align="center" fixed>
-                    <HeaderCell>Protected</HeaderCell>
+                    <HeaderCell><TiLockClosed />/<TiLockOpen /></HeaderCell>
                     <Cell>
                         {rowData => {
                             return (
                                 rowData.protection ? <TiLockClosed /> : <TiLockOpen />
+                            );
+                        }}
+                    </Cell>
+                </Column>
+                <Column width={100} align="center" fixed>
+                    <HeaderCell>Rules</HeaderCell>
+                    <Cell>
+                        {rowData => {
+                            return (
+                                rowData.gameMode
                             );
                         }}
                     </Cell>

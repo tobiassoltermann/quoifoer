@@ -10,7 +10,8 @@ import OverflowScrolling from 'react-overflow-scrolling';
 import io from 'socket.io-client';
 
 import './App.css';
-import 'rsuite/dist/styles/rsuite-default.css';
+import 'rsuite/dist/styles/rsuite-dark.css';
+
 
 import CardDeck from './CardDeck';
 import SettingsDialog from './SettingsDialog';
@@ -21,9 +22,6 @@ import GameboardArea from './GameboardArea';
   yarn start
 */
 
-/**
- * WHY get availableGamemodes multiple times????
- */
 
 class App extends Component {
   constructor() {
@@ -33,10 +31,13 @@ class App extends Component {
       showSettings: false,
       isFullscreen: false,
       isConnected: false,
-      debugInfo: { a: 'b'},
+      debugInfo: { a: 'b' },
       roomList: [],
       joinedRoom: null,
       availableGamemodes: [],
+
+
+
     };
 
     this.goFull = this.goFull.bind(this);
@@ -44,6 +45,7 @@ class App extends Component {
     this.handleJoinRequest = this.handleJoinRequest.bind(this);
     this.handleLeaveRequest = this.handleLeaveRequest.bind(this);
     this.handleAddRoomRequest = this.handleAddRoomRequest.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
   }
 
   goFull(isFull) {
@@ -55,17 +57,39 @@ class App extends Component {
     this.setState({ showSettings });
   }
 
+  onChangeName(newName) {
+    this.setState({
+      localName: newName,
+    }, () => {
+      localStorage.setItem('localName', newName);
+      this.notifyName();
+    });
+  }
+  notifyName() {
+    this.socket.emit('providename', this.state.localName);
+  }
+
   handleAddRoomRequest(roomDetails) {
-    console.log(roomDetails);
-    this.socket.emit('createRoom', roomDetails);
+    this.socket.emit('createRoom', roomDetails, (result) => {
+      if (result.status) {
+        Alert.success('Room created', 2000);
+      } else {
+        Alert.error('Could not create room: ' + result.message, 2000);
+      }
+    });
   }
 
   handleJoinRequest(roomName) {
-    this.socket.emit('joinRoom', roomName, (confirmation) => {
-      if (confirmation) {
+    this.socket.emit('joinRoom', roomName, (confirmation, roomDetails) => {
+      if (confirmation.status) {
         this.setState({
-          joinedRoom: roomName
+          joinedRoom: roomName,
+          gameMode: roomDetails.gameMode,
         });
+        Alert.success('Joined room', 2000);
+
+      } else {
+        Alert.error('Could not join room: ' + confirmation.message, 5000);
       }
       console.log(confirmation);
     });
@@ -73,37 +97,47 @@ class App extends Component {
   handleLeaveRequest(roomName) {
     console.log("handleLeaveRequest");
     this.socket.emit('leaveRoom', roomName, (confirmation) => {
-   
+
       if (confirmation) {
         this.setState({
           joinedRoom: null
         });
+        this.socket.off('gameupdate');
       }
       console.log(confirmation);
     });
     console.log('after send leave');
   }
 
+  handleGameUpdate(roomData) {
+    /*this.setState({
+      gameMode: 
+    })*/
+  }
+
   componentDidMount() {
-    console.log("App mount");
     this.socket = io(':4000');
     this.socket.on('connect', () => {
       this.setState({ isConnected: true });
-      console.log('connect');
-
       Alert.success('Connected to host', 3000);
+
+      if (this.state.localName != null) {
+        this.notifyName();
+      }
     })
     this.socket.on('disconnect', () => {
       this.setState({ isConnected: false });
       Alert.error('Disconnected', 2000);
     })
-    this.socket.on('debugInfo', (message)=>{
+
+    this.socket.on('debugInfo', (message) => {
       this.setState({
         debugInfo: message
       })
     })
-    this.socket.on('hello', () => {
-      console.log("Hello to room");
+
+    this.socket.on('gameupdate', () => {
+      //this.handleJoinInit(roomData);
     });
 
     this.socket.on('rooms', (roomList) => {
@@ -252,51 +286,118 @@ class App extends Component {
       },
 
     ];
-    console.log("availableGamemodes", this.state.availableGamemodes)
+
     return (
       <Fullscreen
         enabled={this.state.isFullscreen}
         onChange={isFullscreen => this.setState({ isFullscreen })}
       >
         <div className="App">
-          <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white'}}>
-            <p style={{ fontWeight: 'bold'}}>Debug:</p>
-            <pre>{ JSON.stringify(this.state.debugInfo, undefined, 2) }</pre>
+          <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white' }}>
+            <p style={{ fontWeight: 'bold' }}>Debug:</p>
+            <pre>{JSON.stringify(this.state.debugInfo, undefined, 2)}</pre>
           </div>
-          <SettingsDialog
-            localName={this.state.localName}
-            handleAddRoomRequest={this.handleAddRoomRequest}
-            handleJoinRequest={this.handleJoinRequest}
-            handleLeaveRequest={this.handleLeaveRequest}
-            roomList={this.state.roomList}
-            onHide={() => { this.showSettings(false) }}
-            visible={this.state.showSettings}
-            joinedRoom={this.state.joinedRoom}
-            availableGamemodes={this.state.availableGamemodes}
-            commitChange={(settingsForm) => {
-              localStorage.setItem('localName', settingsForm.localName);
-              this.setState({
-                localName: settingsForm.localName,
-                showSettings: false,
-              });
-            }}
-          />
-          <div className=""></div>
-          <GameboardArea scores={scores} boardSetup={boardSetup}></GameboardArea>
+          
+          <div style={{position: 'absolute', left: '0', right: '0', width: '100%'}}>
+          {
+            (function() {
+              //this.state.gameMode='coiffeur';
+              //if (this.state.gameMode == null) {
+              if (this.state.joinedRoom == null) {
+                return <SettingsDialog
+                localName={this.state.localName}
+                handleAddRoomRequest={this.handleAddRoomRequest}
+                handleJoinRequest={this.handleJoinRequest}
+                roomList={this.state.roomList}
+                onHide={() => { this.showSettings(false) }}
+                visible={this.state.showSettings}
+                joinedRoom={this.state.joinedRoom}
+                availableGamemodes={this.state.availableGamemodes}
+                commitChange={(settingsForm) => {
+                  this.onChangeName(settingsForm.localName)
+                }}
+              />
+              } else {
+                return <GameboardArea roomName={this.state.joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={this.state.gameMode} roomMode={this.state.roomMode} boardSetup={boardSetup}></GameboardArea>
+              }
+            }).bind(this)()
+          }
+          </div>
+
           <footer className="footer">
             <Toolbar isConnected={this.state.isConnected} isFullscreen={this.state.isFullscreen} goFull={this.goFull} showSettings={this.showSettings} />
             <div className=""></div>
-            <div className="blackEl">
-              <OverflowScrolling className='overflow-scrolling'>
-                <CardDeck cards={cardsHand}></CardDeck>
-              </OverflowScrolling>
-            </div>
+            {
+              (() => {
+                if (this.state.gameMode != null) {
+                  return (
+                    <div className="blackEl">
+                      <OverflowScrolling className='overflow-scrolling'>
+                        <CardDeck cards={cardsHand}></CardDeck>
+                      </OverflowScrolling>
+                    </div>
+                  );
+                } else{
+                  return null;
+                }
+              }).bind(this)()
+            }
           </footer>
 
         </div>
       </Fullscreen>
     );
   }
-
+/*
+  settingsInForms() {
+    return (
+      <div>
+        <Form>
+          <FormGroup>
+            <ControlLabel>Username</ControlLabel>
+            <FormControl style={{ width: 300 }} onChange={this.handleChange} name="localName" value={this.state.localName} />
+            <HelpBlock>Required</HelpBlock>
+          </FormGroup>
+          <FormGroup>
+            <ButtonToolbar>
+              <Button appearance="primary" onClick={this.handleSubmit}>Submit</Button>
+            </ButtonToolbar>
+          </FormGroup>
+        </Form>
+        <Divider />
+        <RoomSettings joinedRoom={this.props.joinedRoom} {...this.props} />
+        <Form layout="inline">
+          <FormGroup>
+            <ControlLabel >Create room:</ControlLabel>
+            <FormControl style={{ width: 100 }} placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
+          </FormGroup>
+          <FormGroup>
+            <RadioGroup name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
+              <span className="rulesLabel">Rules: </span>
+              {
+                (() => {
+                  return Object.keys(this.props.availableGamemodes).map((crtName) => {
+                    return (
+                      <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
+                    )
+                  });
+                })()
+              }
+            </RadioGroup>
+          </FormGroup>
+          <FormGroup>
+            <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
+              <span className="protectionLabel">Protection: </span>
+              <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
+              <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>
+            </RadioGroup>
+            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd} />
+          </FormGroup>
+          <Button appearance="primary" onClick={this.handleCreate}>Create</Button>
+        </Form>
+      </div>
+    );
+  }
+*/
 }
 export default App;

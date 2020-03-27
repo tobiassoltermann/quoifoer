@@ -17,3 +17,18 @@
 .createRoomGamemode {
     color: blue;
 }
+
+.settingsDialog {
+    vertical-align: top;
+    background-color:rgb(0,0,0,0.3);
+    width: 50%;
+    margin-left: 25%;
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+.settingsDialog:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+  }

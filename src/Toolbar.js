@@ -40,7 +40,6 @@ class Toolbar extends React.Component {
                 </div>
                 <div className="toolbarCenter">
                     <div className="toolbarTextContainer">
-                        {/*<div className="toolbarText"><IoMdSettings /></div><div className="toolbarText"><span>Tobi ist am Zug</span></div>*/}
                         <div className="toolbarText" style={{padding: '0px'}}>
                             <TrumpIcon which="trumpK" style={{ width: '75%' }}/>
                         </div><div className="toolbarText"><span>Player 1 ist am Zug</span></div>
