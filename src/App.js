@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Fullscreen from "react-full-screen";
 import {
   Alert,
-  List
 } from 'rsuite';
 
 import OverflowScrolling from 'react-overflow-scrolling';
@@ -28,6 +27,8 @@ function GameRuleResolver(gameMode) {
   switch (gameMode) {
     case 'coiffeur':
       return CoiffeurRules;
+    default:
+      return null;
   }
 }
 
@@ -55,6 +56,7 @@ class App extends Component {
     this.onChangeName = this.onChangeName.bind(this);
 
     this.gameRuleImplementation = null;
+    this.specificProps = null;
   }
 
   goFull(isFull) {
@@ -95,8 +97,12 @@ class App extends Component {
           joinedRoom: roomName,
           gameMode: roomDetails.gameMode,
         }, () => {
-          this.gameRuleImplementation = new (GameRuleResolver(this.state.gameMode))(this.setState, this.socket);
-          this.gameRuleImplementation.onStart();
+          var _GameruleImplementationClass_ = GameRuleResolver(this.state.gameMode);
+          this.gameRuleImplementation = new _GameruleImplementationClass_(this.setState.bind(this), this.socket, () => {
+            this.specificProps = this.gameRuleImplementation.getSpecificProps();
+            this.gameRuleImplementation.onStart();
+          });
+          
         });
         Alert.success('Joined room', 2000);
 
@@ -106,7 +112,6 @@ class App extends Component {
     });
   }
   handleLeaveRequest(roomName) {
-
     this.socket.emit('leaveRoom', roomName, (confirmation) => {
 
       if (confirmation) {
@@ -116,12 +121,6 @@ class App extends Component {
         this.socket.off('gameupdate');
       }
     });
-  }
-
-  handleGameUpdate(roomData) {
-    /*this.setState({
-      gameMode: 
-    })*/
   }
 
   componentDidMount() {
@@ -223,25 +222,6 @@ class App extends Component {
       team2Name: 'Team 2',
       mode: "Coiffeur",
     }
-    var boardSetup = {
-      s: {
-        playerName: "Player 1",
-        card: "H6"
-      },
-      e: {
-        playerName: "Player 2",
-        card: "S7"
-      },
-      n: {
-        playerName: "Player 3",
-        card: "K8"
-      },
-      w: {
-        playerName: "Player 4",
-        card: "C9"
-      },
-    }
-
     var cardsHand = [
       {
         "card": "H6",
@@ -294,49 +274,49 @@ class App extends Component {
 
     ];
 
+    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, boardSetup} = this.state;
     return (
+
       <Fullscreen
-        enabled={this.state.isFullscreen}
+        enabled={isFullscreen}
         onChange={isFullscreen => this.setState({ isFullscreen })}
       >
         <div className="App">
           <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white' }}>
             <p style={{ fontWeight: 'bold' }}>Debug:</p>
-            <pre>{JSON.stringify(this.state.debugInfo, undefined, 2)}</pre>
+            <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
           </div>
           
           <div style={{position: 'absolute', left: '0', right: '0', width: '100%'}}>
           {
             (function() {
-              //this.state.gameMode='coiffeur';
-              //if (this.state.gameMode == null) {
-              if (this.state.joinedRoom == null) {
+              if (joinedRoom == null) {
                 return <SettingsDialog
-                localName={this.state.localName}
+                localName={localName}
                 handleAddRoomRequest={this.handleAddRoomRequest}
                 handleJoinRequest={this.handleJoinRequest}
-                roomList={this.state.roomList}
+                roomList={roomList}
                 onHide={() => { this.showSettings(false) }}
-                visible={this.state.showSettings}
-                joinedRoom={this.state.joinedRoom}
-                availableGamemodes={this.state.availableGamemodes}
+                visible={showSettings}
+                joinedRoom={joinedRoom}
+                availableGamemodes={availableGamemodes}
                 commitChange={(settingsForm) => {
                   this.onChangeName(settingsForm.localName)
                 }}
               />
               } else {
-                return <GameboardArea roomName={this.state.joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={this.state.gameMode} roomMode={this.state.roomMode} boardSetup={boardSetup}></GameboardArea>
+                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={gameMode} boardSetup={boardSetup} {...this.specificProps}></GameboardArea>
               }
             }).bind(this)()
           }
           </div>
 
           <footer className="footer">
-            <Toolbar isConnected={this.state.isConnected} isFullscreen={this.state.isFullscreen} goFull={this.goFull} showSettings={this.showSettings} />
+            <Toolbar isConnected={isConnected} isFullscreen={isFullscreen} goFull={this.goFull} showSettings={this.showSettings} />
             <div className=""></div>
             {
               (() => {
-                if (this.state.gameMode != null) {
+                if (gameMode != null) {
                   return (
                     <div className="blackEl">
                       <OverflowScrolling className='overflow-scrolling'>
@@ -347,7 +327,7 @@ class App extends Component {
                 } else{
                   return null;
                 }
-              }).bind(this)()
+              })()
             }
           </footer>
 
@@ -355,56 +335,5 @@ class App extends Component {
       </Fullscreen>
     );
   }
-/*
-  settingsInForms() {
-    return (
-      <div>
-        <Form>
-          <FormGroup>
-            <ControlLabel>Username</ControlLabel>
-            <FormControl style={{ width: 300 }} onChange={this.handleChange} name="localName" value={this.state.localName} />
-            <HelpBlock>Required</HelpBlock>
-          </FormGroup>
-          <FormGroup>
-            <ButtonToolbar>
-              <Button appearance="primary" onClick={this.handleSubmit}>Submit</Button>
-            </ButtonToolbar>
-          </FormGroup>
-        </Form>
-        <Divider />
-        <RoomSettings joinedRoom={this.props.joinedRoom} {...this.props} />
-        <Form layout="inline">
-          <FormGroup>
-            <ControlLabel >Create room:</ControlLabel>
-            <FormControl style={{ width: 100 }} placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
-          </FormGroup>
-          <FormGroup>
-            <RadioGroup name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
-              <span className="rulesLabel">Rules: </span>
-              {
-                (() => {
-                  return Object.keys(this.props.availableGamemodes).map((crtName) => {
-                    return (
-                      <Radio value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
-                    )
-                  });
-                })()
-              }
-            </RadioGroup>
-          </FormGroup>
-          <FormGroup>
-            <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
-              <span className="protectionLabel">Protection: </span>
-              <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
-              <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>
-            </RadioGroup>
-            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd} />
-          </FormGroup>
-          <Button appearance="primary" onClick={this.handleCreate}>Create</Button>
-        </Form>
-      </div>
-    );
-  }
-*/
 }
 export default App;

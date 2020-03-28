@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import {
     Form,
     FormGroup,
     Divider,
     ControlLabel,
-    Button,
-    Tag,
 } from 'rsuite';
 
 import RoomList from './RoomList';
@@ -14,13 +12,10 @@ import RoomList from './RoomList';
 class RoomSettings extends React.Component {
     constructor(props) {
         super(props);
-        console.log("RoomSettings", this.props);
         this.handleLeave = this.handleLeave.bind(this);
     }
 
     handleLeave() {
-        console.log("handleLeave");
-        console.log(this.props);
         this.props.handleLeaveRequest(this.props.joinedRoom);
     }
 
@@ -36,7 +31,7 @@ class RoomSettings extends React.Component {
                             } else {
                                 return <div style={{ width: '100%', padding: '10px', backgroundColor: '#1a1d24', borderRadius: '6px' }}>No rooms created yet</div>;
                             }
-                        }).bind(this)()
+                        })()
                     }
                 </FormGroup>
                 <Divider />

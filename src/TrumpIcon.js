@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TrumpImages from './TrumpImages';
 import './TrumpIcon.css'
 class TrumpIcon extends React.Component {

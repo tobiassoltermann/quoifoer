@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import CardImages from './CardImages';
 import './Card.css'
 import PropTypes from 'prop-types';
@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 class Card extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.style = Object.assign(
       {},
       {
@@ -17,35 +16,38 @@ class Card extends React.Component {
         return this.props.isBlocked ?
           {
             opacity: 0.4
-          }:
+          } :
           {
             opacity: 1,
             marginBottom: '50%'
           }
-      }).bind(this)(),
+      })(),
       this.props.style
     );
   }
   render() {
+    /*eslint no-unreachable: "off"*/
+
     switch (this.props.rotate) {
-      case null:
-      case undefined:
-      case 0:
-      case 180:
-        return (
-          <div className={"card " + this.props.className} style={{transform: 'rotate(' + this.props.rotate + 'deg)'}}>
-            <img alt={"Card " + this.props.which} key={this.props.which} src={CardImages[this.props.which]} style={this.style}></img>
-          </div>
-        )
-      break;
       case 90:
       case 270:
         return (
           <div className="cardRot" >
-            <img alt={"Card " + this.props.which} key={this.props.which} src={CardImages[this.props.which]} style={this.style}></img>
+            <img alt={"Card " + this.props.which} key={this.props.which} src={CardImages[this.props.which]} style={this.style}></img>
           </div>
         )
-      break;
+        break;
+      case null:
+      case undefined:
+      case 0:
+      case 180:
+      default:
+        return (
+          <div className={"card " + this.props.className} style={{ transform: 'rotate(' + this.props.rotate + 'deg)' }}>
+            <img alt={"Card " + this.props.which} key={this.props.which} src={CardImages[this.props.which]} style={this.style}></img>
+          </div>
+        )
+        break;
     }
   }
 }
@@ -53,6 +55,6 @@ class Card extends React.Component {
 Card.propTypes = {
   which: PropTypes.string,
   rotate: PropTypes.number,
-  isPlayable: PropTypes.bool,  
+  isPlayable: PropTypes.bool,
 }
 export default Card;

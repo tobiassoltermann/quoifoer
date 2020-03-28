@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { IconContext } from "react-icons";
 import { IoMdSettings, IoIosCheckmarkCircle, IoIosWarning } from "react-icons/io";
 import { FiMaximize, FiMinimize } from "react-icons/fi";
@@ -54,7 +54,7 @@ class Toolbar extends React.Component {
                                 } else {
                                     return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
                                 }
-                            }).bind(this)()
+                            })()
                         }
                         <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { this.props.showSettings(true) }}><IoMdSettings /></Button>
                     </IconContext.Provider>

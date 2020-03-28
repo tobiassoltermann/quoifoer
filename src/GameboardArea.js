@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './GameboardArea.css';
 
@@ -41,7 +41,7 @@ class GameboardArea extends React.Component {
                 coiffeur: (
                     <div style={{textAlign: 'center', paddingTop: '20px'}}>
                         <CoiffeurScores scores={this.props.scores}></CoiffeurScores>
-                        <CoiffeurBoard props={this.props.boardSetup}/>
+                        <CoiffeurBoard boardSetup={this.props.boardSetup} {...this.props}/>
                         <div className="leaveButton">
                             <p>Room: {this.props.roomName}</p>
                             {
@@ -51,7 +51,7 @@ class GameboardArea extends React.Component {
                                     } else {
                                         return <Button onClick={this.askLeaveroom}>Leave room</Button>
                                     }
-                                }).bind(this)()
+                                })()
                             }
                         </div>
                     </div>
@@ -70,7 +70,7 @@ class GameboardArea extends React.Component {
 
         console.log("GameboardArea:", this.props);
         return (
-            implementationProvider()[this.props.gameMode]
+            implementationProvider.bind(this)()[this.props.gameMode]
         )
     }
 }

@@ -2,22 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Button,
-    Modal,
-    Input,
-    List,
-    FlexboxGrid,
-    Drawer,
     Form,
     FormGroup,
     FormControl,
     ControlLabel,
-    ButtonToolbar,
-    HelpBlock,
-    Divider,
-    Table,
     RadioGroup,
     Radio,
-    Tag,
 } from 'rsuite';
 
 import {
@@ -28,8 +18,6 @@ import {
 import './SettingsDialog.css';
 
 import RoomSettings from './components/settings/RoomSettings';
-
-const { Column, HeaderCell, Cell, Pagination } = Table;
 
 class SettingsDialog extends React.Component {
     constructor(props) {
@@ -76,7 +64,7 @@ class SettingsDialog extends React.Component {
     render() {
         return (
             <div style={{padding: '20px', height: '70vh', overflow: 'auto'}}>
-                <div style={{ textAlign: 'center' }} className="settingsDialog" style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: 'center' }} className="settingsDialog">
 
                     <Form layout="inline">
                         <FormGroup>
@@ -96,7 +84,7 @@ class SettingsDialog extends React.Component {
                                     (() => {
                                         return Object.keys(this.props.availableGamemodes).map((crtName) => {
                                             return (
-                                                <Radio key={crtName} value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode == crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
+                                                <Radio key={crtName} value={crtName} className={"createRoomGamemode" + (this.state.createRoomGamemode === crtName ? ' createRoomGamemodeSelected' : '')}>{this.props.availableGamemodes[crtName].label}</Radio>
                                             )
                                         });
                                     })()
@@ -106,10 +94,10 @@ class SettingsDialog extends React.Component {
                         <FormGroup>
                             <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
                                 <span className="protectionLabel">Protection: </span>
-                                <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection == "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
-                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection == "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>
+                                <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection === "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
+                                <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection === "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>
                             </RadioGroup>
-                            <FormControl style={{ width: 100, display: this.state.createRoomProtection == "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd} />
+                            <FormControl style={{ width: 100, display: this.state.createRoomProtection === "passwd" ? '' : 'none' }} placeholder="password" name="createRoomPasswd" onChange={this.handleChange} value={this.state.createRoomPasswd} />
                         </FormGroup>
                         <Button appearance="primary" onClick={this.handleCreate}>Create</Button>
                     </Form>

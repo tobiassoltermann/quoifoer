@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Button,
     Table,
     Popover, Whisper,
-    Input, InputGroup,
     Form, FormGroup, FormControl,
 
 } from 'rsuite';
@@ -13,7 +12,7 @@ import {
     TiLockClosed,
 } from 'react-icons/ti';
 
-const { Column, HeaderCell, Cell, Pagination } = Table;
+const { Column, HeaderCell, Cell } = Table;
 
 class JoinButton extends React.Component {
     constructor(props) {
@@ -92,6 +91,8 @@ class RoomList extends React.Component {
                     <HeaderCell><TiLockClosed />/<TiLockOpen /></HeaderCell>
                     <Cell>
                         {rowData => {
+                            /*eslint no-unreachable: "off"*/
+
                             switch (rowData.protection) {
                                 case 'passwd':
                                     return (<TiLockClosed />);
