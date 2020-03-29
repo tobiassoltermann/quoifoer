@@ -59,16 +59,18 @@ class BoardSeat extends React.Component {
 
 }
 
-class Board extends React.Component {
+class CoiffeurBoard extends React.Component {
     render() {
+        var { requestSeat, requestUnseat, gameRuleSpecific } = this.props;
+        var { boardSetup } = gameRuleSpecific;
         return (
             <div className="board">
                 <div className="boardInner">
                     {
                         (() => {
-                            if (this.props.boardSetup != null) {
+                            if (boardSetup != null) {
                                 return ["S", "E", "N", "W"].map( (compass, index) => {
-                                    var e = this.props.boardSetup[compass];
+                                    var e = boardSetup[compass];
                                     //console.log("compass: ", compass, "index: " , index, "e", e);
                                     return (
                                         <BoardSeat
@@ -77,9 +79,10 @@ class Board extends React.Component {
                                             compass={compass}
                                             playerName={e.playerName}
                                             card={e.card}
-                                            canLeave={ this.props.boardSetup.self === compass }
-                                            requestSeat={ this.props.requestSeat }
-                                            requestUnseat={ this.props.requestUnseat }
+                                            canLeave={ this.props.gameStatus == "PLAYER_SEATING" && (this.props.boardSetup.self === compass) }
+                                            /*canLeave={ boardSetup.self === compass }*/
+                                            requestSeat={ requestSeat }
+                                            requestUnseat={ requestUnseat }
                                         />
                                     );
                                 })
@@ -103,4 +106,4 @@ class Board extends React.Component {
 
 */
 
-export default Board;
+export default CoiffeurBoard;

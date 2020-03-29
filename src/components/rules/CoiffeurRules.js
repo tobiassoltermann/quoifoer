@@ -2,8 +2,9 @@
 
 class CoiffeurRules {
 
-    constructor(setState, client, initDone) {
-        this.setState = setState;
+    constructor(globalSetState, client, initDone) {
+        this.globalSetState = globalSetState;
+        this.setState = this.setState.bind(this);
         this.client = client;
 
         this.setState({
@@ -27,8 +28,14 @@ class CoiffeurRules {
                 self: 'N',
             }
         }, initDone);
+
     }
 
+    setState(localState, callback) {
+        this.globalSetState({
+            gameRuleSpecific: localState,
+        }, callback);
+    }
     getSpecificProps() {
         return {
             requestSeat: this.requestSeat.bind(this),
@@ -43,7 +50,9 @@ class CoiffeurRules {
         });
     }
     requestUnseat() {
-        console.log("requestUnseat");
+        this.client.emit('coiffeur-unseat', (response) => {
+            console.log("requestUnseat response:", response);
+        });
     }
 
     onStart() {

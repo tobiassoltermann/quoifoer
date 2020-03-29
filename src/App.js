@@ -46,6 +46,7 @@ class App extends Component {
       availableGamemodes: [],
       
       seatingState: {},
+      gameRuleSpecific: {},
     };
 
     this.goFull = this.goFull.bind(this);
@@ -274,7 +275,7 @@ class App extends Component {
 
     ];
 
-    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, boardSetup} = this.state;
+    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific} = this.state;
     return (
 
       <Fullscreen
@@ -305,7 +306,7 @@ class App extends Component {
                 }}
               />
               } else {
-                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={gameMode} boardSetup={boardSetup} {...this.specificProps}></GameboardArea>
+                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={gameMode} gameRuleSpecific={gameRuleSpecific} {...this.specificProps}></GameboardArea>
               }
             }).bind(this)()
           }
