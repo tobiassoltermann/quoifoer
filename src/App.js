@@ -48,7 +48,7 @@ class App extends Component {
       gameRuleSpecific: {},
       statusText: {
         label: "Hello World",
-        icon: null,
+        icon: "trumpH",
         visible: true
       },
     };
@@ -166,67 +166,6 @@ class App extends Component {
     })
   }
   render() {
-
-    let scoreLines = [
-      {
-        icon: 'trumpC',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpH',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpS',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpK',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpD',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpU',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpA',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpT',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trump3',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-      {
-        icon: 'trumpJ',
-        scoreTeam1: 100,
-        scoreTeam2: 57,
-      },
-    ];
-    let scores = {
-      scoreLines,
-      totalTeam1: 2000,
-      totalTeam2: 1500,
-      team1Name: 'Team 1',
-      team2Name: 'Team 2',
-      mode: "Coiffeur",
-    }
     var cardsHand = [
       {
         "card": "H6",
@@ -310,7 +249,7 @@ class App extends Component {
                 }}
               />
               } else {
-                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} scores={scores} gameMode={gameMode} gameRuleSpecific={gameRuleSpecific} {...this.specificProps}></GameboardArea>
+                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} gameMode={gameMode} gameRuleSpecific={gameRuleSpecific} {...this.specificProps}></GameboardArea>
               }
             }).bind(this)()
           }

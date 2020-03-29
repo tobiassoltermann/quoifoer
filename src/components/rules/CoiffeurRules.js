@@ -7,7 +7,7 @@ class CoiffeurRules {
         this.setState = this.setState.bind(this);
         this.client = client;
 
-        this.setState({
+        this.localState = {
             boardSetup: {
                 S: {
                     playerName: "Player 1",
@@ -26,14 +26,17 @@ class CoiffeurRules {
                     card: "C9"
                 },
                 self: 'N',
-            }
-        }, initDone);
+            },
+        };
+
+        this.globalSetState(this.localState, initDone);
 
     }
 
-    setState(localState, callback) {
+    setState(additionalState, callback) {
+        this.localState = Object.assign(this.localState, additionalState);
         this.globalSetState({
-            gameRuleSpecific: localState,
+            gameRuleSpecific: this.localState,
         }, callback);
     }
     getSpecificProps() {

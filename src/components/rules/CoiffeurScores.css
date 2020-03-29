@@ -19,6 +19,10 @@
     margin-right: 20px;
 }
 
+.scoresItem_highlight {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .scoresMultiplier {
     margin-right: -20px;
 }

@@ -40,7 +40,7 @@ class GameboardArea extends React.Component {
             return {
                 coiffeur: (
                     <div style={{textAlign: 'center', paddingTop: '20px'}}>
-                        <CoiffeurScores scores={this.props.scores}></CoiffeurScores>
+                        <CoiffeurScores gameRuleSpecific={this.props.gameRuleSpecific}></CoiffeurScores>
                         <CoiffeurBoard gameRuleSpecific={this.props.gameRuleSpecific} {...this.props}/>
                         <div className="leaveButton">
                             <p>Room: {this.props.roomName}</p>
