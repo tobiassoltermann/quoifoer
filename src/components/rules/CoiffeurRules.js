@@ -56,9 +56,12 @@ class CoiffeurRules {
     }
 
     onStart() {
-        this.client.on('coiffeur-gamestate', (gameState) => {
+        this.client.on('coiffeur-gamestate', (gameState, mainState) => {
             console.log("coiffeur-gamestate", gameState);
             this.setState(gameState);
+            if (mainState) {
+                this.globalSetState(mainState);
+            }
         });
         this.client.emit('coiffeur-requestgamestate');
     }

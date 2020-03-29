@@ -31,32 +31,46 @@ class ConnectedElement extends React.Component {
 class Toolbar extends React.Component {
 
     render() {
+        var { isConnected, isFullscreen, goFull, showSettings, statusText} = this.props;
         return (
             <div className="toolbarContainer">
                 <div className="toolbarLeft">
                     <IconContext.Provider value={{ color: "white", size: "3em" }}>
-                        <ConnectedElement isConnected={this.props.isConnected}/>
+                        <ConnectedElement isConnected={isConnected}/>
                     </IconContext.Provider>
                 </div>
                 <div className="toolbarCenter">
-                    <div className="toolbarTextContainer">
-                        <div className="toolbarText" style={{padding: '0px'}}>
-                            <TrumpIcon which="trumpK" style={{ width: '75%' }}/>
-                        </div><div className="toolbarText"><span>Player 1 ist am Zug</span></div>
-                    </div>
+                    {
+                        (() => {
+                            return statusText.visible 
+                                ?   (<div className="toolbarTextContainer">
+                                        <div className="toolbarText" style={{padding: '0px'}}>
+                                            {
+                                                (() => {
+                                                    return statusText.icon
+                                                        ?   (<TrumpIcon which={ statusText.icon } style={{ width: '75%' }}/>)
+                                                        :   null
+                                                })()
+                                            }
+                                            
+                                        </div><div className="toolbarText"><span>{ statusText.label }</span></div>
+                                    </div>)
+                                :   null;
+                        })()
+                    }
                 </div>                
                 <div className="toolbarRight" >
                     <IconContext.Provider value={{ color: "white", size: "3em" }}>
                         {
                             (() => {
-                                if (this.props.isFullscreen) {
-                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(false) }} size="lg" appearance="subtle" ><FiMinimize /></Button>)
+                                if (isFullscreen) {
+                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { goFull(false) }} size="lg" appearance="subtle" ><FiMinimize /></Button>)
                                 } else {
-                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { this.props.goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
+                                    return (<Button style={{verticalAlign: 'middle'}} onClick={() => { goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
                                 }
                             })()
                         }
-                        <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { this.props.showSettings(true) }}><IoMdSettings /></Button>
+                        <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { showSettings(true) }}><IoMdSettings /></Button>
                     </IconContext.Provider>
                 </div>
             </div>

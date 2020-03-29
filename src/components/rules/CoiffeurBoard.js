@@ -62,7 +62,7 @@ class BoardSeat extends React.Component {
 class CoiffeurBoard extends React.Component {
     render() {
         var { requestSeat, requestUnseat, gameRuleSpecific } = this.props;
-        var { boardSetup } = gameRuleSpecific;
+        var { boardSetup, gameStatus } = gameRuleSpecific;
         return (
             <div className="board">
                 <div className="boardInner">
@@ -79,7 +79,7 @@ class CoiffeurBoard extends React.Component {
                                             compass={compass}
                                             playerName={e.playerName}
                                             card={e.card}
-                                            canLeave={ this.props.gameStatus == "PLAYER_SEATING" && (this.props.boardSetup.self === compass) }
+                                            canLeave={ gameStatus === "PLAYER_SEATING" && (boardSetup.self === compass) }
                                             /*canLeave={ boardSetup.self === compass }*/
                                             requestSeat={ requestSeat }
                                             requestUnseat={ requestUnseat }

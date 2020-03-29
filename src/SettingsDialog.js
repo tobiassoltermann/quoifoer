@@ -78,7 +78,7 @@ class SettingsDialog extends React.Component {
                             <FormControl style={{ width: 100 }} placeholder="room name" name="createRoomName" onChange={this.handleChange} value={this.state.createRoomName} />
                         </FormGroup>
                         <FormGroup>
-                            <RadioGroup name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
+                            <RadioGroup style={{backgroundColor: '#1a1d24'}} name="createRoomGamemode" value={this.state.createRoomGamemode} onChange={this.handleChange} inline appearance="picker">
                                 <span className="rulesLabel">Rules: </span>
                                 {
                                     (() => {
@@ -92,7 +92,7 @@ class SettingsDialog extends React.Component {
                             </RadioGroup>
                         </FormGroup>
                         <FormGroup>
-                            <RadioGroup name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
+                            <RadioGroup style={{backgroundColor: '#1a1d24'}} name="createRoomProtection" value={this.state.createRoomProtection} onChange={this.handleChange} inline appearance="picker">
                                 <span className="protectionLabel">Protection: </span>
                                 <Radio value="none" className={"protectionRadio" + (this.state.createRoomProtection === "none" ? ' protectionRadioSelected' : '')}><TiLockOpen /></Radio>
                                 <Radio value="passwd" className={"protectionRadio" + (this.state.createRoomProtection === "passwd" ? ' protectionRadioSelected' : '')}><TiLockClosed /></Radio>

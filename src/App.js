@@ -45,8 +45,12 @@ class App extends Component {
       joinedRoom: null,
       availableGamemodes: [],
       
-      seatingState: {},
       gameRuleSpecific: {},
+      statusText: {
+        label: "Hello World",
+        icon: null,
+        visible: true
+      },
     };
 
     this.goFull = this.goFull.bind(this);
@@ -275,7 +279,7 @@ class App extends Component {
 
     ];
 
-    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific} = this.state;
+    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText} = this.state;
     return (
 
       <Fullscreen
@@ -313,7 +317,7 @@ class App extends Component {
           </div>
 
           <footer className="footer">
-            <Toolbar isConnected={isConnected} isFullscreen={isFullscreen} goFull={this.goFull} showSettings={this.showSettings} />
+            <Toolbar isConnected={isConnected} isFullscreen={isFullscreen} goFull={this.goFull} showSettings={this.showSettings} statusText={statusText} />
             <div className=""></div>
             {
               (() => {
