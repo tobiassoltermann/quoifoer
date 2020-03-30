@@ -218,7 +218,8 @@ class App extends Component {
 
     ];
 
-    var {joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText} = this.state;
+    var { joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText } = this.state;
+    var { cardDeck } = gameRuleSpecific;
     return (
 
       <Fullscreen
@@ -264,7 +265,7 @@ class App extends Component {
                   return (
                     <div className="blackEl">
                       <OverflowScrolling className='overflow-scrolling'>
-                        <CardDeck cards={cardsHand}></CardDeck>
+                        <CardDeck cards={cardDeck}></CardDeck>
                       </OverflowScrolling>
                     </div>
                   );
