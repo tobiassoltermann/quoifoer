@@ -60,7 +60,7 @@ class CoiffeurScores extends React.Component {
                                         <tbody>
                                             {
                                                 scores.scoreLines.map((e, i) => {
-                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} {...e}></ScoreEntry>
+                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} onSelectLine={onSelectLine} {...e}></ScoreEntry>
                                                 })
                                             }
                                         </tbody>

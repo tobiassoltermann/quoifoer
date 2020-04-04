@@ -43,6 +43,7 @@ class CoiffeurRules {
         return {
             requestSeat: this.requestSeat.bind(this),
             requestUnseat: this.requestUnseat.bind(this),
+            onSelectLine: this.selectTrick.bind(this),
         }
     }
 
@@ -56,6 +57,13 @@ class CoiffeurRules {
         this.client.emit('coiffeur-unseat', (response) => {
             console.log("requestUnseat response:", response);
         });
+    }
+
+    selectTrick(multiplier) {
+        console.log("selectTrick: ", multiplier);
+        this.client.emit('coiffeur-selecttrick', (response) => {
+            console.log("selectTrick: ", multiplier);
+        })
     }
 
     onStart() {
