@@ -9,15 +9,25 @@ import {
 } from 'rsuite';
 
 class ScoreEntry extends React.Component {
+    constructor(props) {
+        super(props);
+        this.requestSelectTrick = this.requestSelectTrick.bind(this);
+    }
+    requestSelectTrick(multiplier) {
+        this.props.requestSelectTrick(multiplier);
+    }
     render() {
-        var { yourTeam, scoreTeam1, scoreTeam2, multiplier, onSelectLine, icon, selectable } = this.props;
+        var { yourTeam, scoreTeam1, scoreTeam2, multiplier, icon, selectable, myTurn } = this.props;
+
+        const lineSelectable = selectable && myTurn;
+        
         return (
             <tr className="scoresRow">
                 <td className="scoresIcon">
                     {
                         (()=>{
-                            return (selectable) 
-                            ?   <span className="scoresIconLine"><Button onClick={ () => {onSelectLine(multiplier) }} style={{left: 0, position: 'absolute'}} size='xs'>=></Button><span className="scoresMultiplier">{multiplier}x</span> <TrumpIcon which={icon} style={{ width: '35%', paddingLeft: '-10px', marginLeft: '-20px' }}></TrumpIcon></span>
+                            return (lineSelectable) 
+                            ?   <span className="scoresIconLine"><Button onClick={ () => {this.requestSelectTrick(multiplier) }} style={{left: 0, position: 'absolute'}} size='xs'>=></Button><span className="scoresMultiplier">{multiplier}x</span> <TrumpIcon which={icon} style={{ width: '35%', paddingLeft: '-10px', marginLeft: '-20px' }}></TrumpIcon></span>
                             :   <span className="scoresIconLine"><span className="scoresMultiplier">{multiplier}x</span> <TrumpIcon which={this.props.icon} style={{ width: '35%', paddingLeft: '-10px', marginLeft: '-20px' }}></TrumpIcon></span>
                         })()
                     }
@@ -41,7 +51,8 @@ ScoreEntry.propTypes = {
 
 class CoiffeurScores extends React.Component {
     render() {
-        var { scores, onSelectLine, yourTeam } = this.props.gameRuleSpecific;
+        var { gameRuleSpecific, requestSelectTrick } = this.props
+        var { scores, yourTeam, myTurn } = gameRuleSpecific;
         if (scores) {
             return (
                 <div className="scores">
@@ -60,7 +71,7 @@ class CoiffeurScores extends React.Component {
                                         <tbody>
                                             {
                                                 scores.scoreLines.map((e, i) => {
-                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} onSelectLine={onSelectLine} {...e}></ScoreEntry>
+                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} requestSelectTrick={requestSelectTrick} myTurn={myTurn} {...e}></ScoreEntry>
                                                 })
                                             }
                                         </tbody>

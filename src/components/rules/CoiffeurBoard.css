@@ -111,3 +111,12 @@
     transform: rotate(-180deg);
     z-index: 1000;
 }
+
+.pushButton {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 50%;
+    height: 25%;
+    vertical-align: middle;
+}

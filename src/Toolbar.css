@@ -32,6 +32,16 @@
     display: inline-block;
 }
 
+.toolbarTextContainerHighlight {
+
+    background-color: orange;
+    color: black;
+    font-size: 2em;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
 .toolbarText {
     vertical-align: middle;
     padding: 10px;

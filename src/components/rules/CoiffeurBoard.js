@@ -4,6 +4,8 @@ import {
     Button
 } from 'rsuite';
 
+import { FiArrowUpRight } from "react-icons/fi";
+
 import Card from '../../Card';
 import './CoiffeurBoard.css';
 
@@ -59,13 +61,35 @@ class BoardSeat extends React.Component {
 
 }
 
+class PushButton extends React.Component {
+
+    render() {
+        const { canPush } = this.props;
+        return canPush
+        ? <Button onClick={this.props.onClick}><FiArrowUpRight/>Push</Button>
+        : null
+    }
+}
+
 class CoiffeurBoard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.requestPush = this.requestPush.bind(this);
+    }
+
+    requestPush() {
+        this.props.requestPushNext();
+    }
+
     render() {
         var { requestSeat, requestUnseat, gameRuleSpecific } = this.props;
-        var { boardSetup, gameStatus } = gameRuleSpecific;
+        var { boardSetup, gameStatus, canPush } = gameRuleSpecific;
         return (
             <div className="board">
                 <div className="boardInner">
+                    <div className="pushButton">
+                        <PushButton onClick={this.requestPush} canPush={canPush} />
+                    </div>
                     {
                         (() => {
                             if (boardSetup != null) {
@@ -80,7 +104,6 @@ class CoiffeurBoard extends React.Component {
                                             playerName={e.playerName}
                                             card={e.card}
                                             canLeave={ gameStatus === "PLAYER_SEATING" && (boardSetup.self === compass) }
-                                            /*canLeave={ boardSetup.self === compass }*/
                                             requestSeat={ requestSeat }
                                             requestUnseat={ requestUnseat }
                                         />

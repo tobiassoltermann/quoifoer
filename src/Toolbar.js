@@ -28,6 +28,34 @@ class ConnectedElement extends React.Component {
     }
 }
 
+class MessageBar extends React.Component {
+
+    renderIcon(icon) {
+        if (icon) {
+            return <TrumpIcon which={ icon } style={{ width: '75%' }}/>;
+        } else {
+            return null;
+        }
+    }
+    render() {
+        const { visible, icon, label, highlight } = this.props;
+        if (visible) {
+            const actualClassname = highlight == true ? "toolbarTextContainerHighlight" : "toolbarTextContainer";
+            return   (
+                <div className={actualClassname}>
+                    <div className="toolbarText" style={{padding: '0px'}}>
+                        {
+                            this.renderIcon(icon)
+                        }
+                    </div><div className="toolbarText"><span>{ label }</span></div>
+                </div>
+            )
+        } else {
+            return null;
+        }
+    }
+}
+
 class Toolbar extends React.Component {
 
     render() {
@@ -40,24 +68,7 @@ class Toolbar extends React.Component {
                     </IconContext.Provider>
                 </div>
                 <div className="toolbarCenter">
-                    {
-                        (() => {
-                            return statusText.visible 
-                                ?   (<div className="toolbarTextContainer">
-                                        <div className="toolbarText" style={{padding: '0px'}}>
-                                            {
-                                                (() => {
-                                                    return statusText.icon
-                                                        ?   (<TrumpIcon which={ statusText.icon } style={{ width: '75%' }}/>)
-                                                        :   null
-                                                })()
-                                            }
-                                            
-                                        </div><div className="toolbarText"><span>{ statusText.label }</span></div>
-                                    </div>)
-                                :   null;
-                        })()
-                    }
+                    <MessageBar {...statusText}></MessageBar>
                 </div>                
                 <div className="toolbarRight" >
                     <IconContext.Provider value={{ color: "white", size: "3em" }}>

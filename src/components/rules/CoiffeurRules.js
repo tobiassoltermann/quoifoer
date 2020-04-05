@@ -43,7 +43,8 @@ class CoiffeurRules {
         return {
             requestSeat: this.requestSeat.bind(this),
             requestUnseat: this.requestUnseat.bind(this),
-            onSelectLine: this.selectTrick.bind(this),
+            requestSelectTrick: this.requestSelectTrick.bind(this),
+            requestPushNext: this.requestPushNext.bind(this),
         }
     }
 
@@ -59,10 +60,16 @@ class CoiffeurRules {
         });
     }
 
-    selectTrick(multiplier) {
+    requestSelectTrick(multiplier) {
         console.log("selectTrick: ", multiplier);
-        this.client.emit('coiffeur-selecttrick', (response) => {
-            console.log("selectTrick: ", multiplier);
+        this.client.emit('coiffeur-selecttrick', multiplier, (response) => {
+            
+        })
+    }
+
+    requestPushNext() {
+        console.log("player pushs")
+        this.client.emit('coiffeur-selectpush', (response) => {
         })
     }
 
