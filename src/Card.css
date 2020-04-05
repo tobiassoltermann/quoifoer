@@ -12,3 +12,12 @@
   margin-top: -5px;
   margin-bottom: -5px;
 }
+
+.blockedCard {
+  opacity: 0.4;
+}
+
+.playableCard {
+  opacity: 1;
+  margin-bottom: 50%;
+}

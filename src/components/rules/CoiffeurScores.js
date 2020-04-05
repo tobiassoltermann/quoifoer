@@ -52,7 +52,7 @@ ScoreEntry.propTypes = {
 class CoiffeurScores extends React.Component {
     render() {
         var { gameRuleSpecific, requestSelectTrick } = this.props
-        var { scores, yourTeam, myTurn } = gameRuleSpecific;
+        var { status, scores, yourTeam, myTurn } = gameRuleSpecific;
         if (scores) {
             return (
                 <div className="scores">
@@ -71,7 +71,8 @@ class CoiffeurScores extends React.Component {
                                         <tbody>
                                             {
                                                 scores.scoreLines.map((e, i) => {
-                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} requestSelectTrick={requestSelectTrick} myTurn={myTurn} {...e}></ScoreEntry>
+                                                    var thisSelectable = (status == "CHOOSE_TRICK") ? e.selectable : false;
+                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} requestSelectTrick={requestSelectTrick} myTurn={myTurn} selectable={thisSelectable} {...e}></ScoreEntry>
                                                 })
                                             }
                                         </tbody>

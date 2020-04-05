@@ -1,4 +1,7 @@
-
+import {
+    Alert,
+  } from 'rsuite';
+  
 
 class CoiffeurRules {
 
@@ -45,6 +48,7 @@ class CoiffeurRules {
             requestUnseat: this.requestUnseat.bind(this),
             requestSelectTrick: this.requestSelectTrick.bind(this),
             requestPushNext: this.requestPushNext.bind(this),
+            requestPlayCard: this.requestPlayCard.bind(this),
         }
     }
 
@@ -68,8 +72,17 @@ class CoiffeurRules {
     }
 
     requestPushNext() {
-        console.log("player pushs")
+        console.log("player pushs");
         this.client.emit('coiffeur-selectpush', (response) => {
+        })
+    }
+    
+    requestPlayCard(cardName) {
+        console.log("player play card", cardName);
+        this.client.emit('coiffeur-playcard', cardName, (result) => {
+            if (result.status === false) {
+                Alert.error('Could not play card: ' + result.message, 2000);
+            }
         })
     }
 

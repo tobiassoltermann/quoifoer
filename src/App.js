@@ -166,57 +166,6 @@ class App extends Component {
     })
   }
   render() {
-    var cardsHand = [
-      {
-        "card": "H6",
-        "playable": false
-      },
-      {
-        "card": "K8",
-        "playable": false
-      },
-      {
-        "card": "CX",
-        "playable": false
-      },
-      {
-        "card": "CK",
-        "playable": false
-      },
-      {
-        "card": "CQ",
-        "playable": false
-      },
-      {
-        "card": "S9",
-        "playable": true
-      },
-      {
-        "card": "SX",
-        "playable": true
-      },
-      {
-        "card": "H7",
-        "playable": false
-      },
-      {
-        "card": "C9",
-        "playable": false
-      },
-      {
-        "card": "C6",
-        "playable": false
-      },
-      {
-        "card": "HK",
-        "playable": false
-      },
-      {
-        "card": "C8",
-        "playable": false
-      },
-
-    ];
 
     var { joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText } = this.state;
     var { cardDeck } = gameRuleSpecific;
@@ -265,7 +214,7 @@ class App extends Component {
                   return (
                     <div className="blackEl">
                       <OverflowScrolling className='overflow-scrolling'>
-                        <CardDeck cards={cardDeck}></CardDeck>
+                        <CardDeck cards={cardDeck} {...this.specificProps}></CardDeck>
                       </OverflowScrolling>
                     </div>
                   );

@@ -8,13 +8,14 @@ class CardDeck extends React.Component {
     super(props);
   }
   render() {
-    var { cards } = this.props;
+    var { cards, requestPlayCard } = this.props;
     if (cards != null) {
       return (
         <div className="carddeck">
           {
             cards.map( (current, i) => {
-              return <Card isBlocked={!current.playable} key={i} which={current.card}></Card>
+              console.log("CardDeck:map", current.card, current.playable);
+              return <Card onClick={requestPlayCard} isBlocked={!current.playable} key={i} which={current.card}></Card>
             })
           }
         </div>
