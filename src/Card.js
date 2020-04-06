@@ -18,7 +18,6 @@ class Card extends React.Component {
   }
 
   onClick() {
-    console.log("onClick(", this.props.which, ")");
     if (this.props.onClick != undefined && this.props.isBlocked === false) {
       this.props.onClick(this.props.which);
     }

@@ -23,11 +23,22 @@ class SeatedPlayer extends React.Component {
             );
         }
     }
+    renderCard() {
+        if (this.props.card != null) {
+            return (
+                <Card className={"boardCard card" + this.props.compass} which={this.props.card} />
+            )
+        } else {
+            return null;
+        }
+    }
+
     render() {
+        console.log( this.props );
         return (
             <div style={{zIndex: this.props.zIndex}}>
-                <Card className={"boardCard card" + this.props.compass} which={this.props.card}></Card>
-                {this.playerText() }
+                { this.renderCard() }
+                { this.playerText() }
             </div>
         )
     }
