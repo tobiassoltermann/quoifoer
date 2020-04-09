@@ -11,25 +11,31 @@ class CoiffeurRules {
         this.client = client;
 
         this.localState = {
-            boardSetup: {
-                S: {
-                    playerName: "Player 1",
-                    card: "H6"
-                },
-                E: {
-                    playerName: "Player 2",
-                    card: "S7"
-                },
-                N: {
-                    playerName: "Player 3",
-                    card: "K8"
-                },
-                W: {
-                    playerName: "Player 4",
-                    card: "C9"
-                },
-                self: 'N',
+/*            playerNames: {
+                S: "Player 1",
+                E: "Player 2",
+                N: "Player 3",
+                W: "Player 4",
             },
+            tableCards: {
+                S: "H6",
+                E: "S7",
+                N: "K8",
+                W: "C9",
+            },*/
+            playerNames: {
+                S: null,
+                E: null,
+                N: null,
+                W: null,
+            },
+            tableCards: {
+                S: null,
+                E: null,
+                N: null,
+                W: null,
+            },
+            mySeat: 1,
         };
 
         this.globalSetState(this.localState, initDone);

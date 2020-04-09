@@ -37,6 +37,7 @@ class App extends Component {
     super();
     this.state = {
       localName: localStorage.getItem('localName'),
+      localNameSalt: localStorage.getItem('localNameSalt'),
       showSettings: false,
       isFullscreen: false,
       isConnected: false,
@@ -44,7 +45,7 @@ class App extends Component {
       roomList: [],
       joinedRoom: null,
       availableGamemodes: [],
-      
+
       gameRuleSpecific: {},
       statusText: {
         label: "Hello World",
@@ -73,16 +74,38 @@ class App extends Component {
     this.setState({ showSettings });
   }
 
+  getNameSalt(name) {
+    function hashCode(str) {
+      var hash = 0;
+      if (str.length == 0) {
+        return hash;
+      }
+      for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return hash;
+    }
+
+    return hashCode( name + new Date().toISOString() );
+  }
+
   onChangeName(newName) {
+    const localNameSalt = this.getNameSalt(newName);
+
     this.setState({
       localName: newName,
+      localNameSalt: localNameSalt,
     }, () => {
       localStorage.setItem('localName', newName);
+      localStorage.setItem('localNameSalt', localNameSalt);
       this.notifyName();
     });
   }
+  
   notifyName() {
-    this.socket.emit('providename', this.state.localName);
+    this.socket.emit('providename', this.state.localName, this.state.localNameSalt);
   }
 
   handleAddRoomRequest(roomDetails) {
@@ -96,7 +119,7 @@ class App extends Component {
   }
 
   handleJoinRequest(roomName, password) {
-    this.socket.emit('joinRoom', { name: roomName, password: password}, (confirmation, roomDetails) => {
+    this.socket.emit('joinRoom', { name: roomName, password: password }, (confirmation, roomDetails) => {
       if (confirmation.status) {
         this.setState({
           joinedRoom: roomName,
@@ -107,7 +130,7 @@ class App extends Component {
             this.specificProps = this.gameRuleImplementation.getSpecificProps();
             this.gameRuleImplementation.onStart();
           });
-          
+
         });
         Alert.success('Joined room', 2000);
 
@@ -180,29 +203,29 @@ class App extends Component {
             <p style={{ fontWeight: 'bold' }}>Debug:</p>
             <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
           </div>
-          
-          <div style={{position: 'absolute', left: '0', right: '0', width: '100%'}}>
-          {
-            (function() {
-              if (joinedRoom == null) {
-                return <SettingsDialog
-                localName={localName}
-                handleAddRoomRequest={this.handleAddRoomRequest}
-                handleJoinRequest={this.handleJoinRequest}
-                roomList={roomList}
-                onHide={() => { this.showSettings(false) }}
-                visible={showSettings}
-                joinedRoom={joinedRoom}
-                availableGamemodes={availableGamemodes}
-                commitChange={(settingsForm) => {
-                  this.onChangeName(settingsForm.localName)
-                }}
-              />
-              } else {
-                return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} gameMode={gameMode} gameRuleSpecific={gameRuleSpecific} {...this.specificProps}></GameboardArea>
-              }
-            }).bind(this)()
-          }
+
+          <div style={{ position: 'absolute', left: '0', right: '0', width: '100%' }}>
+            {
+              (function () {
+                if (joinedRoom == null) {
+                  return <SettingsDialog
+                    localName={localName}
+                    handleAddRoomRequest={this.handleAddRoomRequest}
+                    handleJoinRequest={this.handleJoinRequest}
+                    roomList={roomList}
+                    onHide={() => { this.showSettings(false) }}
+                    visible={showSettings}
+                    joinedRoom={joinedRoom}
+                    availableGamemodes={availableGamemodes}
+                    commitChange={(settingsForm) => {
+                      this.onChangeName(settingsForm.localName)
+                    }}
+                  />
+                } else {
+                  return <GameboardArea roomName={joinedRoom} handleLeave={this.handleLeaveRequest} gameMode={gameMode} gameRuleSpecific={gameRuleSpecific} {...this.specificProps}></GameboardArea>
+                }
+              }).bind(this)()
+            }
           </div>
 
           <footer className="footer">
@@ -218,7 +241,7 @@ class App extends Component {
                       </OverflowScrolling>
                     </div>
                   );
-                } else{
+                } else {
                   return null;
                 }
               })()

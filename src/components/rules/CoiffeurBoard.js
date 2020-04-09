@@ -94,7 +94,7 @@ class CoiffeurBoard extends React.Component {
 
     render() {
         var { requestSeat, requestUnseat, gameRuleSpecific } = this.props;
-        var { boardSetup, gameStatus, canPush } = gameRuleSpecific;
+        var { localPlayerNames, localTableCards, mySeat, gameStatus, canPush } = gameRuleSpecific;
         return (
             <div className="board">
                 <div className="boardInner">
@@ -103,26 +103,29 @@ class CoiffeurBoard extends React.Component {
                     </div>
                     {
                         (() => {
-                            if (boardSetup != null) {
+                            if (localPlayerNames != null && localTableCards != null) {
+                                console.log("CoiffeurBoard:render", localPlayerNames);
                                 return ["S", "E", "N", "W"].map( (compass, index) => {
-                                    var e = boardSetup[compass];
+                                    var playerName = localPlayerNames[compass];
+                                    var card = localTableCards[compass];
                                     //console.log("compass: ", compass, "index: " , index, "e", e);
                                     return (
                                         <BoardSeat
                                             key={compass}
                                             zIndex={100*index}
                                             compass={compass}
-                                            playerName={e.playerName}
-                                            card={e.card}
-                                            canLeave={ gameStatus === "PLAYER_SEATING" && (boardSetup.self === compass) }
+                                            playerName={playerName}
+                                            card={card}
+                                            canLeave={ gameStatus === "PLAYER_SEATING" && (mySeat === index) }
                                             requestSeat={ requestSeat }
                                             requestUnseat={ requestUnseat }
                                         />
                                     );
-                                })
+                                });
                             } else {
-                                return <p style={{color: "red"}}>Boardsetup null</p>;
+                                return <p>Board not set up yet</p>
                             }
+
                         })()
                     }
                     
