@@ -26,7 +26,7 @@ class SeatedPlayer extends React.Component {
     renderCard() {
         if (this.props.card != null) {
             return (
-                <Card className={"boardCard card" + this.props.compass} which={this.props.card} />
+                <Card isWinner={this.props.isWinner} className={"boardCard card" + this.props.compass} which={this.props.card} />
             )
         } else {
             return null;
@@ -108,6 +108,12 @@ class CoiffeurBoard extends React.Component {
                                 return ["S", "E", "N", "W"].map( (compass, index) => {
                                     var playerName = localPlayerNames[compass];
                                     var card = localTableCards[compass];
+                                    var crdPlayerIsWinner = (() => {
+                                        if (localTableCards.winner == null || localTableCards.winner == undefined) {
+                                            return null;
+                                        }
+                                        return localTableCards.winner === compass;
+                                    })();
                                     //console.log("compass: ", compass, "index: " , index, "e", e);
                                     return (
                                         <BoardSeat
@@ -116,6 +122,7 @@ class CoiffeurBoard extends React.Component {
                                             compass={compass}
                                             playerName={playerName}
                                             card={card}
+                                            isWinner={crdPlayerIsWinner}
                                             canLeave={ gameStatus === "PLAYER_SEATING" && (mySeat === index) }
                                             requestSeat={ requestSeat }
                                             requestUnseat={ requestUnseat }

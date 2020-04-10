@@ -83,9 +83,9 @@ class CoiffeurRules {
         })
     }
     
-    requestPlayCard(cardName) {
+    requestPlayCard(cardName, allCardsUnlocked) {
         console.log("player play card", cardName);
-        this.client.emit('coiffeur-playcard', cardName, (result) => {
+        this.client.emit('coiffeur-playcard', cardName, allCardsUnlocked, (result) => {
             if (result.status === false) {
                 Alert.error('Could not play card: ' + result.message, 2000);
             }

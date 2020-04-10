@@ -25,15 +25,23 @@ class Card extends React.Component {
 
 
   render() {
-    const { which, rotate, className, isBlocked} = this.props;
-
+    const { which, rotate, className, isBlocked, isWinner} = this.props;
+    var winnerClassname = "";
+    if (isWinner != null ) {
+      if (isWinner === true) {
+        winnerClassname = " winningCard";
+      }
+      if (isWinner === false) {
+        winnerClassname = " losingCard";
+      }
+    }
     /*eslint no-unreachable: "off"*/
   
     switch (rotate) {
       case 90:
       case 270:
         return (
-          <div className="cardRot" >
+          <div className={"cardRot" + winnerClassname} >
             <img alt={"Card " + which} key={which} src={CardImages[which]} style={this.style}></img>
           </div>
         )
@@ -44,7 +52,7 @@ class Card extends React.Component {
       case 180:
       default:
         return (
-          <div className={"card " + className} style={{ transform: 'rotate(' + rotate + 'deg)' }}>
+          <div className={"card " + className + winnerClassname} style={{ transform: 'rotate(' + rotate + 'deg)' }}>
             <img onClick={this.onClick} className={ isBlocked ? "blockedCard" : "playableCard"} alt={"Card " + which} key={which} src={CardImages[which]} style={this.style}></img>
           </div>
         )

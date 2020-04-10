@@ -7,6 +7,7 @@ import {
 } from 'rsuite';
 
 import CoiffeurBoard from './components/rules/CoiffeurBoard';
+import CoiffeurLastView from './components/rules/CoiffeurLastView';
 import CoiffeurScores from './components/rules/CoiffeurScores';
 
 class GameboardArea extends React.Component {
@@ -53,6 +54,7 @@ class GameboardArea extends React.Component {
                                     }
                                 })()
                             }
+                            {<CoiffeurLastView gameRuleSpecific={this.props.gameRuleSpecific} {...this.props}/>}
                         </div>
                     </div>
                 ),

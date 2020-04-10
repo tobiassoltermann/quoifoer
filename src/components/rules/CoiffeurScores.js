@@ -72,7 +72,8 @@ class CoiffeurScores extends React.Component {
                                             {
                                                 scores.scoreLines.map((e, i) => {
                                                     var thisSelectable = (status == "CHOOSE_TRICK") ? e.selectable : false;
-                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={i + 1} requestSelectTrick={requestSelectTrick} myTurn={myTurn} selectable={thisSelectable} {...e}></ScoreEntry>
+                                                    var multiplier = i + 1;
+                                                    return <ScoreEntry key={i} yourTeam={yourTeam} multiplier={multiplier} requestSelectTrick={requestSelectTrick} myTurn={myTurn} selectable={thisSelectable} {...e}></ScoreEntry>
                                                 })
                                             }
                                         </tbody>

@@ -52,6 +52,7 @@ class App extends Component {
         icon: "trumpH",
         visible: true
       },
+      unlockAllCards: false,
     };
 
     this.goFull = this.goFull.bind(this);
@@ -59,6 +60,7 @@ class App extends Component {
     this.handleJoinRequest = this.handleJoinRequest.bind(this);
     this.handleLeaveRequest = this.handleLeaveRequest.bind(this);
     this.handleAddRoomRequest = this.handleAddRoomRequest.bind(this);
+    this.handleUnlockAllCards = this.handleUnlockAllCards.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
 
     this.gameRuleImplementation = null;
@@ -151,6 +153,18 @@ class App extends Component {
     });
   }
 
+  handleUnlockAllCards() {
+    this.setState({
+      unlockAllCards: true
+    });
+
+    setTimeout( (() => {
+      this.setState({
+        unlockAllCards: false
+      });
+    }).bind(this), 3000);
+  }
+
   componentDidMount() {
     this.socket = io(':4000');
     this.socket.on('connect', () => {
@@ -190,7 +204,7 @@ class App extends Component {
   }
   render() {
 
-    var { joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText } = this.state;
+    var { joinedRoom, debugInfo, isFullscreen, localName, roomList, showSettings, availableGamemodes, gameMode, isConnected, gameRuleSpecific, statusText, unlockAllCards } = this.state;
     var { cardDeck } = gameRuleSpecific;
     return (
 
@@ -199,10 +213,12 @@ class App extends Component {
         onChange={isFullscreen => this.setState({ isFullscreen })}
       >
         <div className="App">
-          <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white' }}>
-            <p style={{ fontWeight: 'bold' }}>Debug:</p>
-            <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
-          </div>
+          {/*
+            <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white' }}>
+              <p style={{ fontWeight: 'bold' }}>Debug:</p>
+              <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
+            </div>
+          */}
 
           <div style={{ position: 'absolute', left: '0', right: '0', width: '100%' }}>
             {
@@ -237,7 +253,7 @@ class App extends Component {
                   return (
                     <div className="blackEl">
                       <OverflowScrolling className='overflow-scrolling'>
-                        <CardDeck cards={cardDeck} {...this.specificProps}></CardDeck>
+                        <CardDeck cards={cardDeck} handleUnlockAll={this.handleUnlockAllCards} unlockAllCards={unlockAllCards} {...this.specificProps}></CardDeck>
                       </OverflowScrolling>
                     </div>
                   );
