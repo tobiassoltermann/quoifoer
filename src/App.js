@@ -19,7 +19,7 @@ import GameboardArea from './GameboardArea';
 
 import CoiffeurRules from './components/rules/CoiffeurRules';
 
-const CLIENT_VERSION = 1.1;
+const CLIENT_VERSION = 1.3;
 /*
   yarn start
 */

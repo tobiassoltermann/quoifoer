@@ -10,6 +10,7 @@ import CoiffeurBoard from './components/rules/CoiffeurBoard';
 import CoiffeurLastView from './components/rules/CoiffeurLastView';
 import CoiffeurScores from './components/rules/CoiffeurScores';
 import CoiffeurModeSlalomSubselector from './components/rules/CoiffeurModeSlalomSubselector';
+import CoiffeurModeJokerSubselector from './components/rules/CoiffeurModeJokerSubselector';
 
 
 class GameboardArea extends React.Component {
@@ -22,6 +23,7 @@ class GameboardArea extends React.Component {
         }
         this.possibleSubselectors = {
             CoiffeurModeSlalomSubselector: CoiffeurModeSlalomSubselector,
+            CoiffeurModeJokerSubselector: CoiffeurModeJokerSubselector,
         };
         
         this.handleLeaveRoom = this.handleLeaveRoom.bind(this);
