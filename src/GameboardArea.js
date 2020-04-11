@@ -9,6 +9,8 @@ import {
 import CoiffeurBoard from './components/rules/CoiffeurBoard';
 import CoiffeurLastView from './components/rules/CoiffeurLastView';
 import CoiffeurScores from './components/rules/CoiffeurScores';
+import CoiffeurModeSlalomSubselector from './components/rules/CoiffeurModeSlalomSubselector';
+
 
 class GameboardArea extends React.Component {
     
@@ -18,9 +20,13 @@ class GameboardArea extends React.Component {
             localName: "",
             leaveRoomAsked: false,
         }
+        this.possibleSubselectors = {
+            CoiffeurModeSlalomSubselector: CoiffeurModeSlalomSubselector,
+        };
         
         this.handleLeaveRoom = this.handleLeaveRoom.bind(this);
         this.askLeaveroom = this.askLeaveroom.bind(this);
+        this.getSubselector = this.getSubselector.bind(this);
     }
     handleLeaveRoom() {
         this.props.handleLeave(this.props.roomName);
@@ -36,15 +42,33 @@ class GameboardArea extends React.Component {
             }, 3000);
         });
     }
+    getSubselector(subselectorName) {
+        const { gameRuleSpecific } = this.props;
+
+        const { visibleSubselector } = gameRuleSpecific;
+        if (visibleSubselector === null || visibleSubselector === undefined) {
+            return null;
+        }
+        //debugger;
+        const VisibleSubselector = this.possibleSubselectors[visibleSubselector];
+        return (
+            <div className="subselector">
+                <VisibleSubselector gameRuleSpecific={gameRuleSpecific} {...this.props}/>
+            </div>
+        );
+    }
+
     render() {
+        const { gameRuleSpecific, roomName } = this.props;
+        var VisibleSubselector = this.getSubselector();
         const implementationProvider = () => {
             return {
                 coiffeur: (
                     <div style={{textAlign: 'center', paddingTop: '20px'}}>
-                        <CoiffeurScores gameRuleSpecific={this.props.gameRuleSpecific} {...this.props}></CoiffeurScores>
-                        <CoiffeurBoard gameRuleSpecific={this.props.gameRuleSpecific} {...this.props}/>
+                        <CoiffeurScores gameRuleSpecific={gameRuleSpecific} {...this.props}></CoiffeurScores>
+                        <CoiffeurBoard gameRuleSpecific={gameRuleSpecific} {...this.props}/>
                         <div className="leaveButton">
-                            <p>Room: {this.props.roomName}</p>
+                            <p>Room: {roomName}</p>
                             {
                                 (() => {
                                     if (this.state.leaveRoomAsked) {
@@ -54,7 +78,8 @@ class GameboardArea extends React.Component {
                                     }
                                 })()
                             }
-                            {<CoiffeurLastView gameRuleSpecific={this.props.gameRuleSpecific} {...this.props}/>}
+                            {<CoiffeurLastView gameRuleSpecific={gameRuleSpecific} {...this.props}/>}
+                            { VisibleSubselector }
                         </div>
                     </div>
                 ),

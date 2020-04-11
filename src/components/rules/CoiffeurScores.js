@@ -54,6 +54,7 @@ class CoiffeurScores extends React.Component {
         var { gameRuleSpecific, requestSelectTrick } = this.props
         var { status, scores, yourTeam, myTurn } = gameRuleSpecific;
         if (scores) {
+            console.log("CoiffeurScores:render() scores:", scores);
             return (
                 <div className="scores">
                     <div className="scoresInner">

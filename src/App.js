@@ -19,6 +19,7 @@ import GameboardArea from './GameboardArea';
 
 import CoiffeurRules from './components/rules/CoiffeurRules';
 
+const CLIENT_VERSION = 1.1;
 /*
   yarn start
 */
@@ -190,6 +191,11 @@ class App extends Component {
       //this.handleJoinInit(roomData);
     });
 
+    this.socket.on('serverinfo', (serverinfo) => {
+      this.setState({
+        SERVER_VERSION: serverinfo.SERVER_VERSION
+      });
+    })
     this.socket.on('rooms', (roomList) => {
       this.setState({
         roomList,
@@ -219,6 +225,11 @@ class App extends Component {
               <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
             </div>
           */}
+          <div style={{ position: 'absolute', top: 10, left: 10, padding: '10px', fontSize: '10px', zIndex: 1000000, color: 'white' }}>
+            <p style={{ fontWeight: 'bold' }}>Version:<br/>
+            Client: { CLIENT_VERSION }<br/>
+            Server: { this.state.SERVER_VERSION }</p>
+          </div>
 
           <div style={{ position: 'absolute', left: '0', right: '0', width: '100%' }}>
             {

@@ -1,7 +1,6 @@
 import {
     Alert,
-  } from 'rsuite';
-  
+} from 'rsuite';
 
 class CoiffeurRules {
 
@@ -11,18 +10,18 @@ class CoiffeurRules {
         this.client = client;
 
         this.localState = {
-/*            playerNames: {
-                S: "Player 1",
-                E: "Player 2",
-                N: "Player 3",
-                W: "Player 4",
-            },
-            tableCards: {
-                S: "H6",
-                E: "S7",
-                N: "K8",
-                W: "C9",
-            },*/
+            /*            playerNames: {
+                            S: "Player 1",
+                            E: "Player 2",
+                            N: "Player 3",
+                            W: "Player 4",
+                        },
+                        tableCards: {
+                            S: "H6",
+                            E: "S7",
+                            N: "K8",
+                            W: "C9",
+                        },*/
             playerNames: {
                 S: null,
                 E: null,
@@ -70,11 +69,43 @@ class CoiffeurRules {
         });
     }
 
-    requestSelectTrick(multiplier) {
+    requestSelectTrick(multiplier, subselection) {
         console.log("selectTrick: ", multiplier);
-        this.client.emit('coiffeur-selecttrick', multiplier, (response) => {
-            
-        })
+
+        var crtScoreLine = this.localState.scores.scoreLines.find((element, index) => {
+            var crtMultiplier = index + 1;
+            return (multiplier == crtMultiplier);
+        });
+        if (crtScoreLine.subselectorName != null) {
+            console.log("Subselector: ", crtScoreLine.subselectorName);
+            if (subselection != null) {
+                console.log("Subselection done: ", subselection);
+                this.setState({
+                    visibleSubselector: null,
+                    preselectedMultiplier: undefined,
+                }, () => {
+                    this.client.emit('coiffeur-selecttrick', multiplier, subselection, (response) => {
+    
+                    });
+                });
+            } else {
+                this.setState({
+                    visibleSubselector: crtScoreLine.subselectorName,
+                    preselectedMultiplier: multiplier,
+                });
+
+            }
+        } else {
+            console.log("No subselector present.");
+            this.setState({
+                visibleSubselector: null,
+                preselectedMultiplier: undefined,
+            }, () => {
+                this.client.emit('coiffeur-selecttrick', multiplier, null, (response) => {
+    
+                })
+            });
+        }
     }
 
     requestPushNext() {
@@ -82,7 +113,7 @@ class CoiffeurRules {
         this.client.emit('coiffeur-selectpush', (response) => {
         })
     }
-    
+
     requestPlayCard(cardName, allCardsUnlocked) {
         console.log("player play card", cardName);
         this.client.emit('coiffeur-playcard', cardName, allCardsUnlocked, (result) => {
