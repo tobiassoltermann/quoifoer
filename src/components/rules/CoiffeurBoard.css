@@ -119,4 +119,5 @@
     width: 50%;
     height: 25%;
     vertical-align: middle;
+    z-index: 1000;
 }

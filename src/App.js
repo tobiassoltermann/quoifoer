@@ -19,7 +19,7 @@ import GameboardArea from './GameboardArea';
 
 import CoiffeurRules from './components/rules/CoiffeurRules';
 
-const CLIENT_VERSION = 1.3;
+const CLIENT_VERSION = 1.4;
 /*
   yarn start
 */
@@ -175,37 +175,39 @@ class App extends Component {
       if (this.state.localName != null) {
         this.notifyName();
       }
-    })
-    this.socket.on('disconnect', () => {
-      this.setState({ isConnected: false });
-      Alert.error('Disconnected', 2000);
-    })
 
-    this.socket.on('debugInfo', (message) => {
-      this.setState({
-        debugInfo: message
+      this.socket.on('disconnect', () => {
+        this.setState({ isConnected: false });
+        Alert.error('Disconnected', 2000);
       })
-    })
 
-    this.socket.on('gameupdate', () => {
-      //this.handleJoinInit(roomData);
-    });
-
-    this.socket.on('serverinfo', (serverinfo) => {
-      this.setState({
-        SERVER_VERSION: serverinfo.SERVER_VERSION
-      });
-    })
-    this.socket.on('rooms', (roomList) => {
-      this.setState({
-        roomList,
-      });
-    });
-
-    this.socket.on('offered-gamemodes', (availableGamemodes) => {
-      this.setState({
-        availableGamemodes
+      this.socket.on('debugInfo', (message) => {
+        this.setState({
+          debugInfo: message
+        })
       })
+
+      this.socket.on('gameupdate', () => {
+        //this.handleJoinInit(roomData);
+      });
+
+      this.socket.on('serverinfo', (serverinfo) => {
+        this.setState({
+          SERVER_VERSION: serverinfo.SERVER_VERSION
+        });
+      })
+      this.socket.on('rooms', (roomList) => {
+        this.setState({
+          roomList,
+        });
+      });
+
+      this.socket.on('offered-gamemodes', (availableGamemodes) => {
+        this.setState({
+          availableGamemodes
+        })
+      })
+
     })
   }
   render() {
