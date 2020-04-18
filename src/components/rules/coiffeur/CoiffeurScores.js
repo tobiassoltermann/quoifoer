@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OverflowScrolling from 'react-overflow-scrolling';
 import './CoiffeurScores.css'
-import TrumpIcon from '../../TrumpIcon';
+import TrumpIcon from '../../../TrumpIcon';
 
 import {
     Button

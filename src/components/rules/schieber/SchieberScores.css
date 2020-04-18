@@ -1,0 +1,46 @@
+.scores {
+    position: relative;
+    background-color:rgb(0,0,0,0.7);
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 25vw;
+    height: 60vh;
+    border-color: black;
+    border-radius: 10px;
+    text-align: center;
+}
+.scoresInner {
+    position: relative;
+    margin: 0;
+    height: 100%
+}
+
+.scores100Row {
+    height: 30%;
+}
+
+.scores50Row {
+    height: 30%;
+}
+
+.scores20Row {
+    height: 30%;
+}
+
+.scoresRow {
+    height: 30%;
+    white-space: nowrap;
+}
+
+.countingBlock {
+    height: 100%;
+    display: inline-block;
+}
+
+.countingBlockLeft {
+    text-align: left;
+}
+.countingBlockRight {
+    text-align: right;
+}

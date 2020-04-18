@@ -6,7 +6,7 @@ import {
 
 import { FiArrowUpRight } from "react-icons/fi";
 
-import Card from '../../Card';
+import Card from '../../../Card';
 import './CoiffeurBoard.css';
 
 class SeatedPlayer extends React.Component {

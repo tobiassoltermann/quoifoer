@@ -6,12 +6,15 @@ import {
     Button
 } from 'rsuite';
 
-import CoiffeurBoard from './components/rules/CoiffeurBoard';
-import CoiffeurLastView from './components/rules/CoiffeurLastView';
-import CoiffeurScores from './components/rules/CoiffeurScores';
-import CoiffeurModeSlalomSubselector from './components/rules/CoiffeurModeSlalomSubselector';
-import CoiffeurModeJokerSubselector from './components/rules/CoiffeurModeJokerSubselector';
+import CoiffeurBoard from './components/rules/coiffeur/CoiffeurBoard';
+import CoiffeurLastView from './components/rules/coiffeur/CoiffeurLastView';
+import CoiffeurScores from './components/rules/coiffeur/CoiffeurScores';
+import CoiffeurModeSlalomSubselector from './components/rules/coiffeur/CoiffeurModeSlalomSubselector';
+import CoiffeurModeJokerSubselector from './components/rules/coiffeur/CoiffeurModeJokerSubselector';
 
+import SchieberBoard from './components/rules/schieber/SchieberBoard';
+import SchieberLastView from './components/rules/schieber/SchieberLastView';
+import SchieberScores from './components/rules/schieber/SchieberScores';
 
 class GameboardArea extends React.Component {
     
@@ -86,7 +89,24 @@ class GameboardArea extends React.Component {
                     </div>
                 ),
                 schieber: (
-                    <div></div>
+                    <div style={{textAlign: 'center', paddingTop: '20px'}}>
+                        <SchieberScores gameRuleSpecific={gameRuleSpecific} {...this.props}></SchieberScores>
+                        <SchieberBoard gameRuleSpecific={gameRuleSpecific} {...this.props}/>
+                        <div className="leaveButton">
+                            <p>Room: {roomName}</p>
+                            {
+                                (() => {
+                                    if (this.state.leaveRoomAsked) {
+                                        return <Button color="red" onClick={this.handleLeaveRoom}>Sure? Tap again</Button>
+                                    } else {
+                                        return <Button onClick={this.askLeaveroom}>Leave room</Button>
+                                    }
+                                })()
+                            }
+                            {<SchieberLastView gameRuleSpecific={gameRuleSpecific} {...this.props}/>}
+                            { VisibleSubselector }
+                        </div>
+                    </div>
                 ),
 
                 undefined: (

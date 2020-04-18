@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import TrumpSubIcon from '../../TrumpSubIcon';
+import TrumpSubIcon from '../../../TrumpSubIcon';
 
 import './CoiffeurModeSlalomSubselector.css';
 

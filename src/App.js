@@ -11,15 +11,15 @@ import io from 'socket.io-client';
 import './App.css';
 import 'rsuite/dist/styles/rsuite-dark.css';
 
-
 import CardDeck from './CardDeck';
 import SettingsDialog from './SettingsDialog';
 import Toolbar from './Toolbar';
 import GameboardArea from './GameboardArea';
 
-import CoiffeurRules from './components/rules/CoiffeurRules';
+import CoiffeurRules from './components/rules/coiffeur/CoiffeurRules';
+import SchieberRules from './components/rules/schieber/SchieberRules';
 
-const CLIENT_VERSION = 1.4;
+const CLIENT_VERSION = 1.5;
 /*
   yarn start
 */
@@ -28,6 +28,8 @@ function GameRuleResolver(gameMode) {
   switch (gameMode) {
     case 'coiffeur':
       return CoiffeurRules;
+    case 'schieber':
+      return SchieberRules;
     default:
       return null;
   }
@@ -219,14 +221,15 @@ class App extends Component {
       <Fullscreen
         enabled={isFullscreen}
         onChange={isFullscreen => this.setState({ isFullscreen })}
-      >
+      > 
         <div className="App">
           {/*
             <div style={{ position: 'absolute', borderRadius: '10px', top: 10, left: 10, padding: '10px', fontSize: '8px', backgroundColor: 'rgba(0, 0, 0, 0.9)', zIndex: 1000000, color: 'white' }}>
-              <p style={{ fontWeight: 'bold' }}>Debug:</p>
-              <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
+            <p style={{ fontWeight: 'bold' }}>Debug:</p>
+            <pre>{JSON.stringify(debugInfo, undefined, 2)}</pre>
             </div>
           */}
+
           <div style={{ position: 'absolute', top: 10, left: 10, padding: '10px', fontSize: '10px', zIndex: 1000000, color: 'white' }}>
             <p style={{ fontWeight: 'bold' }}>Version:<br/>
             Client: { CLIENT_VERSION }<br/>
