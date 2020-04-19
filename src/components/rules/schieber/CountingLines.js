@@ -9,6 +9,8 @@ import tally_two1  from '../../../img/tally_two1.png';
 import tally_two2  from '../../../img/tally_two2.png';
 import tally_V     from '../../../img/tally_V.png';
 
+import Nbsp from '../../../Nbsp';
+
 const allPrefixes = {
     tally_five1,
     tally_five2,
@@ -29,6 +31,9 @@ class CountingLineElement extends Component {
     render() {
         const { value, imagePrefix } = this.props;
         console.log("CountingLineElement:", imagePrefix, value)
+        if (value == 0) {
+            return <Nbsp/>;
+        }
         return (
             <img alt={imagePrefix + value} src={allPrefixes[imagePrefix + value]} style={{ height: "100%" }} />
         )
@@ -50,6 +55,9 @@ class CountingLine extends Component {
             elements.push(
                 <CountingLineElement value={elementType} imagePrefix={this.imagePrefix} />
             );
+        }
+        if (elements.length == 0) {
+            elements.push(<Nbsp/>);
         }
 
         return <span alt={this.maxPerBlock}>{elements}</span>;

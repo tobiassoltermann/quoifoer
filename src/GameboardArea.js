@@ -9,12 +9,14 @@ import {
 import CoiffeurBoard from './components/rules/coiffeur/CoiffeurBoard';
 import CoiffeurLastView from './components/rules/coiffeur/CoiffeurLastView';
 import CoiffeurScores from './components/rules/coiffeur/CoiffeurScores';
-import CoiffeurModeSlalomSubselector from './components/rules/coiffeur/CoiffeurModeSlalomSubselector';
-import CoiffeurModeJokerSubselector from './components/rules/coiffeur/CoiffeurModeJokerSubselector';
 
 import SchieberBoard from './components/rules/schieber/SchieberBoard';
 import SchieberLastView from './components/rules/schieber/SchieberLastView';
 import SchieberScores from './components/rules/schieber/SchieberScores';
+
+import CoiffeurModeSlalomSubselector from './components/rules/coiffeur/CoiffeurModeSlalomSubselector';
+import CoiffeurModeJokerSubselector from './components/rules/coiffeur/CoiffeurModeJokerSubselector';
+import SchieberModeSelector from './components/rules/schieber/SchieberModeSelector';
 
 class GameboardArea extends React.Component {
     
@@ -25,8 +27,12 @@ class GameboardArea extends React.Component {
             leaveRoomAsked: false,
         }
         this.possibleSubselectors = {
-            CoiffeurModeSlalomSubselector: CoiffeurModeSlalomSubselector,
-            CoiffeurModeJokerSubselector: CoiffeurModeJokerSubselector,
+            coiffeur: {
+                CoiffeurModeSlalomSubselector: CoiffeurModeSlalomSubselector,
+                CoiffeurModeJokerSubselector: CoiffeurModeJokerSubselector,
+            },
+            schieber: {
+            }
         };
         
         this.handleLeaveRoom = this.handleLeaveRoom.bind(this);
@@ -55,7 +61,7 @@ class GameboardArea extends React.Component {
             return null;
         }
         //debugger;
-        const VisibleSubselector = this.possibleSubselectors[visibleSubselector];
+        const VisibleSubselector = this.possibleSubselectors[this.props.gameMode][visibleSubselector];
         return (
             <div className="subselector">
                 <VisibleSubselector gameRuleSpecific={gameRuleSpecific} {...this.props}/>
@@ -104,7 +110,7 @@ class GameboardArea extends React.Component {
                                 })()
                             }
                             {<SchieberLastView gameRuleSpecific={gameRuleSpecific} {...this.props}/>}
-                            { VisibleSubselector }
+                            {<SchieberModeSelector gameRuleSpecific={gameRuleSpecific} {...this.props}/>}
                         </div>
                     </div>
                 ),

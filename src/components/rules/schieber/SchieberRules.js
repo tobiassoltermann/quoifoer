@@ -69,20 +69,16 @@ class SchieberRules {
         });
     }
 
-    requestSelectTrick(multiplier, subselection) {
-        console.log("selectTrick: ", multiplier);
+    requestSelectTrick(implementationName, subselection) {
+        console.log("selectTrick: ", implementationName);
 
-        var crtScoreLine = this.localState.scores.scoreLines.find((element, index) => {
-            var crtMultiplier = index + 1;
-            return (multiplier == crtMultiplier);
-        });
-        if (crtScoreLine.subselectorName != null) {
+/*        if (crtScoreLine.subselectorName != null) {
             console.log("Subselector: ", crtScoreLine.subselectorName);
             if (subselection != null) {
                 console.log("Subselection done: ", subselection);
                 this.setState({
                     visibleSubselector: null,
-                    preselectedMultiplier: undefined,
+                    preselectedTrickname: undefined,
                 }, () => {
                     this.client.emit('schieber-selecttrick', multiplier, subselection, (response) => {
     
@@ -91,21 +87,15 @@ class SchieberRules {
             } else {
                 this.setState({
                     visibleSubselector: crtScoreLine.subselectorName,
-                    preselectedMultiplier: multiplier,
+                    preselectedTrickname: multiplier,
                 });
 
             }
-        } else {
-            console.log("No subselector present.");
-            this.setState({
-                visibleSubselector: null,
-                preselectedMultiplier: undefined,
-            }, () => {
-                this.client.emit('schieber-selecttrick', multiplier, null, (response) => {
-    
-                })
-            });
-        }
+        } else {*/
+            this.client.emit('schieber-selecttrick', implementationName, null, (response) => {
+
+            })
+//        }
     }
 
     requestPushNext() {

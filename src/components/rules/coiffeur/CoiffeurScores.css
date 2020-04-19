@@ -29,7 +29,7 @@
 
 div.scoresTable {
     position: relative;
-    top: 30%;
+    /*top: 30%;*/
     bottom: 0;
     margin: 10px;
 }

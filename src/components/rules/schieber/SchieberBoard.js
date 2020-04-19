@@ -4,7 +4,7 @@ import {
     Button
 } from 'rsuite';
 
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiArrowUp } from "react-icons/fi";
 
 import Card from '../../../Card';
 import './SchieberBoard.css';
@@ -77,7 +77,7 @@ class PushButton extends React.Component {
     render() {
         const { canPush } = this.props;
         return canPush
-        ? <Button onClick={this.props.onClick}><FiArrowUpRight/>Push</Button>
+        ? <Button onClick={this.props.onClick}><FiArrowUp/>Push</Button>
         : null
     }
 }
@@ -104,7 +104,7 @@ class SchieberBoard extends React.Component {
                     {
                         (() => {
                             if (localPlayerNames != null && localTableCards != null) {
-                                console.log("CoiffeurBoard:render", localPlayerNames);
+                                console.log("SchieberBoard:render", localPlayerNames);
                                 return ["S", "E", "N", "W"].map( (compass, index) => {
                                     var playerName = localPlayerNames[compass];
                                     var card = localTableCards[compass];
