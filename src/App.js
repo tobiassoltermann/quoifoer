@@ -51,7 +51,7 @@ class App extends Component {
 
       gameRuleSpecific: {},
       statusText: {
-        label: "Hello World",
+        label: "Welcome!",
         icon: "trumpH",
         visible: true
       },
@@ -230,7 +230,7 @@ class App extends Component {
             </div>
           */}
 
-          <div style={{ position: 'absolute', top: 10, left: 10, padding: '10px', fontSize: '10px', zIndex: 1000000, color: 'white' }}>
+          <div style={{ position: 'absolute', top: 10, left: 10, padding: '10px', fontSize: '10px', zIndex: 1000000, color: 'white', opacity: 0.6 }}>
             <p style={{ fontWeight: 'bold' }}>Version:<br/>
             Client: { CLIENT_VERSION }<br/>
             Server: { this.state.SERVER_VERSION }</p>

@@ -71,6 +71,7 @@ class Toolbar extends React.Component {
                     <MessageBar {...statusText}></MessageBar>
                 </div>                
                 <div className="toolbarRight" >
+                    <span style={{ display: "inline-block", textAlign: "right", lineHeight: "1.0"}}>Feedback?<br/><a href="mailto:feedback@jass.games" style={{ fontWeight: "bold", color: "orange" }}>feedback@jass.games</a></span>
                     <IconContext.Provider value={{ color: "white", size: "3em" }}>
                         {
                             (() => {
@@ -80,8 +81,8 @@ class Toolbar extends React.Component {
                                     return (<Button style={{verticalAlign: 'middle'}} onClick={() => { goFull(true) }} size="lg" appearance="subtle" ><FiMaximize /></Button>)
                                 }
                             })()
+                        /*<Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { showSettings(true) }}><IoMdSettings /></Button>*/
                         }
-                        <Button size="lg" style={{verticalAlign: 'middle'}} appearance="subtle" onClick={() => { showSettings(true) }}><IoMdSettings /></Button>
                     </IconContext.Provider>
                 </div>
             </div>
