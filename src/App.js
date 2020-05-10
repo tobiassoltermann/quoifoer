@@ -19,7 +19,7 @@ import GameboardArea from './GameboardArea';
 import CoiffeurRules from './components/rules/coiffeur/CoiffeurRules';
 import SchieberRules from './components/rules/schieber/SchieberRules';
 
-const CLIENT_VERSION = 1.5;
+const CLIENT_VERSION = 1.6;
 /*
   yarn start
 */
