@@ -1,7 +1,7 @@
 FROM node:10-alpine as builder
 
 # copy the package.json to install dependencies
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 RUN npm install
 WORKDIR /build
